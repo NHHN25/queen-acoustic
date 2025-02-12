@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && next export",
+    "start": "npx serve@latest out -p 3000 --cors --no-compression --no-etag",
+    "preview": "npx serve@latest out -p 3000 --cors --no-compression --no-etag",
     "lint": "next lint"
   },
   "dependencies": {

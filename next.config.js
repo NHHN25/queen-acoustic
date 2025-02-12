@@ -4,8 +4,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/queen-acoustic' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/queen-acoustic/' : '',
+  basePath: '',
+  assetPrefix: '',
+  trailingSlash: true,
+  distDir: 'out',
 }
 
 module.exports = nextConfig
