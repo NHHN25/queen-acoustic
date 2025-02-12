@@ -78,7 +78,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="px-12 py-4 bg-gold-600/90 backdrop-blur-sm text-white button-shadow gold-glow rounded-sm text-stroke-sm font-medium"
+              className="px-12 py-4 bg-gold-400 backdrop-blur-sm text-white button-shadow gold-glow rounded-sm text-stroke-sm font-medium hover:bg-gold-500"
             >
               {t('hero.bookNow')}
             </motion.button>
@@ -203,31 +203,6 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Booking CTA */}
-      <section className="min-h-screen smooth-scroll-section flex items-center bg-gradient-to-br from-gold-50 via-white to-gold-50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-pattern-grid opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-transparent" />
-        <div className="container mx-auto px-4 py-8 md:py-0 max-w-4xl text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-8 mt-16 md:mt-0 backdrop-blur-sm p-8 rounded-sm border border-gold-100/50"
-          >
-            <h2 className="text-4xl font-light text-gray-900 section-title">
-              {t('booking.title')}
-            </h2>
-            <div className="w-20 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto" />
-            <p className="text-gray-700 max-w-2xl mx-auto font-medium">
-              {t('booking.description')}
-            </p>
-            <button className="mt-8 px-12 py-4 border-2 border-gold-600 bg-gold-600 text-white hover:bg-gold-700 button-shadow gold-glow transition-colors duration-300 text-stroke-sm font-medium">
-              {t('booking.button')}
-            </button>
-          </motion.div>
         </div>
       </section>
     </main>

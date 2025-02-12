@@ -2,38 +2,79 @@ import { NavItem } from '@/types/navigation';
 
 export const navigationItems: NavItem[] = [
   {
-    label: 'Trang Chủ',
+    key: 'home',
     path: '/',
+    label: 'Home'
   },
   {
-    label: 'Giới Thiệu',
-    path: '/gioi-thieu',
+    key: 'about',
+    path: '/about',
+    label: 'About',
     children: [
-      { label: 'Ca Sĩ', path: '/gioi-thieu/ca-si' },
-      { label: 'Ban Nhạc', path: '/gioi-thieu/ban-nhac' },
-      { label: 'Biên Tập Chương Trình', path: '/gioi-thieu/bien-tap-chuong-trinh' },
-      { label: 'Queen Acoustic', path: '/gioi-thieu/queen-acoustic' },
-      { label: 'Hệ Thống Queen', path: '/gioi-thieu/he-thong-queen' },
-    ],
+      {
+        key: 'singers',
+        path: '/about/singers',
+        label: 'Singers'
+      },
+      {
+        key: 'band',
+        path: '/about/band',
+        label: 'Band'
+      },
+      {
+        key: 'program',
+        path: '/about/program',
+        label: 'Program'
+      },
+      {
+        key: 'about',
+        path: '/about/queen-acoustic',
+        label: 'Queen Acoustic'
+      },
+      {
+        key: 'system',
+        path: '/about/system',
+        label: 'System'
+      }
+    ]
   },
   {
-    label: 'Lịch Diễn',
-    path: '/lich-dien',
+    key: 'schedule',
+    path: '/schedule',
+    label: 'Schedule',
     children: [
-      { label: 'Lịch Theo Ca Sĩ', path: '/lich-dien/theo-ca-si' },
-      { label: 'Lịch Theo Tuần/Tháng', path: '/lich-dien/theo-thoi-gian' },
-    ],
+      {
+        key: 'bySinger',
+        path: '/schedule/by-singer',
+        label: 'By Singer'
+      },
+      {
+        key: 'byTime',
+        path: '/schedule/by-time',
+        label: 'By Time'
+      }
+    ]
   },
   {
-    label: 'Tin Tức',
-    path: '/tin-tuc',
+    key: 'news',
+    path: '/news',
+    label: 'News',
     children: [
-      { label: 'Khám Phá', path: '/tin-tuc/kham-pha' },
-      { label: 'Tuyển Dụng', path: '/tin-tuc/tuyen-dung' },
-    ],
+      {
+        key: 'discover',
+        path: '/news/discover',
+        label: 'Discover'
+      },
+      {
+        key: 'careers',
+        path: '/news/careers',
+        label: 'Careers'
+      }
+    ]
   },
   {
-    label: 'Liên Hệ',
-    path: '/lien-he',
-  },
+    key: 'contact',
+    path: '/contact',
+    label: 'Contact'
+  }
 ];

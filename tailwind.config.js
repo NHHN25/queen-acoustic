@@ -11,16 +11,16 @@ module.exports = {
       },
       colors: {
         gold: {
-          50: '#FFF9EA',
-          100: '#FFF3D6',
-          200: '#FFE7AD',
-          300: '#F3D384', // This is the base color we're matching
-          400: '#E5C16E',
-          500: '#D7AF58',
-          600: '#C99D42',
-          700: '#BB8B2C',
-          800: '#8F6A22',
-          900: '#634918',
+          50: '#f9f6f0',
+          100: '#f3ede1',
+          200: '#e7dbc3',
+          300: '#dbc9a5',
+          400: '#bda476', // Our new primary button color
+          500: '#ab8d59',
+          600: '#987947',
+          700: '#806439',
+          800: '#674e2d',
+          900: '#4e3921',
         },
         gray: {
           50: '#F9FAFB',

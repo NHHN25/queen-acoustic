@@ -6,7 +6,7 @@ export const translations = {
       schedule: 'Lịch Diễn',
       news: 'Tin Tức',
       contact: 'Liên Hệ',
-      booking: 'Đặt Chỗ',
+      booking: 'Đặt Phòng',
       aboutSubmenu: {
         singers: 'Ca Sĩ',
         band: 'Ban Nhạc',

@@ -1,6 +1,7 @@
 export interface NavItem {
-  label: string;
+  key: string;
   path: string;
+  label: string;
   children?: NavItem[];
 }
 
