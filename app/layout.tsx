@@ -12,8 +12,11 @@ const robotoCondensed = Roboto_Condensed({
 })
 
 export const metadata = {
-  title: 'Queen Acoustic - Luxury Acoustic Lounge',
-  description: 'Experience the finest acoustic music in a luxurious setting',
+  title: {
+    default: 'Queen Acoustic',
+    template: '%s | Queen Acoustic'
+  },
+  description: 'Experience the finest acoustic music in an elegant setting with Vietnam\'s top performers',
 }
 
 export default function RootLayout({
