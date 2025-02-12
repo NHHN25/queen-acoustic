@@ -27,6 +27,12 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true
+          static_site_generator: next
+
       - name: Install Dependencies
         run: npm ci
 
