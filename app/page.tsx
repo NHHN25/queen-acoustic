@@ -53,7 +53,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/20 z-10" /> {/* Additional dim layer */}
           <Image
             loader={imageLoader}
-            src="/images/hero-bg.jpg"  // Make sure this image exists in public/images
+            src="images/hero-bg.jpg"  // Removed leading slash
             alt="Queen Acoustic Ambiance"
             fill
             className="object-cover brightness-90" // Slightly dimmed image
@@ -147,7 +147,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-black/5 z-10 group-hover:bg-black/0 transition-colors duration-500" />
               <Image
                 loader={imageLoader}
-                src="/images/about-image.jpg"
+                src="images/about-image.jpg"  // Removed leading slash
                 alt="Queen Acoustic Interior"
                 fill
                 className="object-cover"
@@ -185,7 +185,7 @@ export default function Home() {
                 <div className="relative h-[500px]">
                   <Image
                     loader={imageLoader}
-                    src={`/images/performer-${performer}.jpg`}
+                    src={`images/performer-${performer}.jpg`}  // Removed leading slash
                     alt={`Performer ${performer}`}
                     fill
                     className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
