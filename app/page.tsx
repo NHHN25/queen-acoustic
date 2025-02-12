@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import imageLoader from '@/lib/image-loader';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -51,7 +52,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
           <div className="absolute inset-0 bg-black/20 z-10" /> {/* Additional dim layer */}
           <Image
-            src="/images/hero-bg.jpg"
+            loader={imageLoader}
+            src="/images/hero-bg.jpg"  // Make sure this image exists in public/images
             alt="Queen Acoustic Ambiance"
             fill
             className="object-cover brightness-90" // Slightly dimmed image
@@ -144,6 +146,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-black/5 z-10 group-hover:bg-black/0 transition-colors duration-500" />
               <Image
+                loader={imageLoader}
                 src="/images/about-image.jpg"
                 alt="Queen Acoustic Interior"
                 fill
@@ -181,6 +184,7 @@ export default function Home() {
               >
                 <div className="relative h-[500px]">
                   <Image
+                    loader={imageLoader}
                     src={`/images/performer-${performer}.jpg`}
                     alt={`Performer ${performer}`}
                     fill
