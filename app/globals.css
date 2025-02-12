@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: #171717;
+  --background: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #ededed;
+    --background: #0a0a0a;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    height: 100%;
+  }
+
+  body {
+    height: 100%;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  .text-shadow-lg {
+    text-shadow: 0 0 30px rgba(0,0,0,0.8);
+  }
+  .text-shadow {
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+  
+  .smooth-scroll-container {
+    height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .smooth-scroll-section {
+    min-height: 100vh;
+    height: auto;
+    overflow: hidden;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .smooth-scroll-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .smooth-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mobile padding adjustments */
+  @media (max-width: 768px) {
+    .smooth-scroll-section {
+      padding-top: 5rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  /* Additional utility for section headers */
+  .section-title {
+    @apply scroll-mt-20;  /* Add scroll margin for all breakpoints */
+  }
+
+  .button-shadow {
+    text-shadow: 
+      0 1px 2px rgba(0,0,0,0.3),
+      0 0 4px rgba(0,0,0,0.2),
+      0 0 1px rgba(0,0,0,0.4);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .gold-glow {
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .gold-glow:hover {
+    box-shadow: 
+      0 4px 15px -3px rgba(196, 168, 110, 0.4),
+      0 2px 8px -2px rgba(196, 168, 110, 0.2),
+      inset 0 0 2px rgba(255, 255, 255, 0.2);
+    text-shadow: 
+      0 1px 8px rgba(255,255,255,0.4),
+      0 0 2px rgba(255,255,255,0.3);
+  }
+
+  .text-stroke-sm {
+    -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-text {
+    text-shadow: 
+      0 2px 4px rgba(0,0,0,0.5),
+      0 4px 12px rgba(0,0,0,0.4),
+      0 8px 24px rgba(0,0,0,0.3);
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-subtitle {
+    text-shadow: 
+      0 2px 4px rgba(0,0,0,0.5),
+      0 4px 8px rgba(0,0,0,0.3);
+    -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.05em;
+  }
+
+  .bg-pattern-grid {
+    background-image: linear-gradient(to right, rgba(196, 168, 110, 0.1) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(196, 168, 110, 0.1) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .bg-pattern-dots {
+    background-image: radial-gradient(rgba(196, 168, 110, 0.2) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  .section-divide {
+    position: relative;
+  }
+
+  .section-divide::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(196, 168, 110, 0.5), transparent);
+  }
+}
