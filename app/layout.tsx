@@ -7,6 +7,8 @@ const robotoCondensed = Roboto_Condensed({
   subsets: ['latin', 'vietnamese'],
   weight: ['300', '400', '700'],
   variable: '--font-roboto-condensed',
+  preload: false,
+  display: 'swap',
 })
 
 export const metadata = {
@@ -20,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="vi" className={robotoCondensed.variable}>
-      <body className="font-roboto antialiased">
+    <html lang="vi">
+      <body className={robotoCondensed.className}>
         <LanguageProvider>
           <Navbar />
           {children}
