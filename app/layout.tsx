@@ -17,6 +17,25 @@ export const metadata = {
     template: '%s | Queen Acoustic'
   },
   description: 'Experience the finest acoustic music in an elegant setting with Vietnam\'s top performers',
+  icons: {
+    icon: [
+      {
+        url: '/favicon/favicon.ico',
+        sizes: 'any',
+      },
+      {
+        url: '/favicon/icon.svg',
+        type: 'image/svg+xml',
+      },
+    ],
+    apple: [
+      {
+        url: '/favicon/apple-touch-icon.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
