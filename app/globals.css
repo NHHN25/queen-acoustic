@@ -32,18 +32,18 @@ body {
 
 @layer components {
   .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 }
 
 @layer utilities {
   .text-shadow-lg {
-    text-shadow: 0 0 30px rgba(0,0,0,0.8);
+    text-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
   }
   .text-shadow {
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
-  
+
   .smooth-scroll-container {
     height: 100%;
     overflow-y: auto;
@@ -62,7 +62,7 @@ body {
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  
+
   .smooth-scroll-container::-webkit-scrollbar {
     display: none;
   }
@@ -77,14 +77,14 @@ body {
 
   /* Additional utility for section headers */
   .section-title {
-    @apply scroll-mt-20;  /* Add scroll margin for all breakpoints */
+    @apply scroll-mt-20; /* Add scroll margin for all breakpoints */
   }
 
   .button-shadow {
-    text-shadow: 
-      0 1px 2px rgba(0,0,0,0.3),
-      0 0 4px rgba(0,0,0,0.2),
-      0 0 1px rgba(0,0,0,0.4);
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 0 4px rgba(0, 0, 0, 0.2),
+      0 0 1px rgba(0, 0, 0, 0.4);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -94,13 +94,13 @@ body {
   }
 
   .gold-glow:hover {
-    box-shadow: 
+    box-shadow:
       0 4px 15px -3px rgba(190, 141, 74, 0.5),
       0 2px 8px -2px rgba(190, 141, 74, 0.3),
       inset 0 0 2px rgba(255, 255, 255, 0.3);
-    text-shadow: 
-      0 1px 8px rgba(255,255,255,0.5),
-      0 0 2px rgba(255,255,255,0.4);
+    text-shadow:
+      0 1px 8px rgba(255, 255, 255, 0.5),
+      0 0 2px rgba(255, 255, 255, 0.4);
     transform: translateY(-1px);
   }
 
@@ -109,25 +109,26 @@ body {
   }
 
   .hero-text {
-    text-shadow: 
-      0 2px 4px rgba(0,0,0,0.5),
-      0 4px 12px rgba(0,0,0,0.4),
-      0 8px 24px rgba(0,0,0,0.3);
+    text-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 8px 24px rgba(0, 0, 0, 0.3);
     -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.3);
     letter-spacing: 0.02em;
   }
 
   .hero-subtitle {
-    text-shadow: 
-      0 2px 4px rgba(0,0,0,0.5),
-      0 4px 8px rgba(0,0,0,0.3);
+    text-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      0 4px 8px rgba(0, 0, 0, 0.3);
     -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.2);
     letter-spacing: 0.05em;
   }
 
   .bg-pattern-grid {
-    background-image: linear-gradient(to right, rgba(196, 168, 110, 0.1) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(196, 168, 110, 0.1) 1px, transparent 1px);
+    background-image:
+      linear-gradient(to right, rgba(196, 168, 110, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(196, 168, 110, 0.1) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 

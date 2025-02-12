@@ -8,23 +8,23 @@ export default function NotFound() {
   const content = {
     vi: {
       title: 'Không Tìm Thấy Trang',
-      description: 'Trang bạn đang tìm kiếm không tồn tại.'
+      description: 'Trang bạn đang tìm kiếm không tồn tại.',
     },
     en: {
       title: 'Page Not Found',
-      description: 'The page you\'re looking for doesn\'t exist.'
-    }
+      description: "The page you're looking for doesn't exist.",
+    },
   };
 
   const { title, description } = content[language as keyof typeof content];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="text-center space-y-4">
+    <div className="flex min-h-screen items-center justify-center bg-white">
+      <div className="space-y-4 text-center">
         <h2 className="text-3xl font-light text-gray-900">{title}</h2>
         <p className="text-gray-600">{description}</p>
         <div className="pt-6">
-          <a href="/" className="text-gold-400 hover:text-gold-500 transition-colors">
+          <a href="/" className="text-gold-400 transition-colors hover:text-gold-500">
             {language === 'vi' ? 'Về Trang Chủ' : 'Back to Home'}
           </a>
         </div>

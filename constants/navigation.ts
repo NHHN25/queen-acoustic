@@ -4,7 +4,7 @@ export const navigationItems: NavItem[] = [
   {
     key: 'home',
     path: '/',
-    label: 'Home'
+    label: 'Home',
   },
   {
     key: 'about',
@@ -14,29 +14,29 @@ export const navigationItems: NavItem[] = [
       {
         key: 'singers',
         path: '/about/singers',
-        label: 'Singers'
+        label: 'Singers',
       },
       {
         key: 'band',
         path: '/about/band',
-        label: 'Band'
+        label: 'Band',
       },
       {
         key: 'program',
         path: '/about/program',
-        label: 'Program'
+        label: 'Program',
       },
       {
         key: 'about',
         path: '/about/queen-acoustic',
-        label: 'Queen Acoustic'
+        label: 'Queen Acoustic',
       },
       {
         key: 'system',
         path: '/about/system',
-        label: 'System'
-      }
-    ]
+        label: 'System',
+      },
+    ],
   },
   {
     key: 'schedule',
@@ -46,14 +46,14 @@ export const navigationItems: NavItem[] = [
       {
         key: 'bySinger',
         path: '/schedule/by-singer',
-        label: 'By Singer'
+        label: 'By Singer',
       },
       {
         key: 'byTime',
         path: '/schedule/by-time',
-        label: 'By Time'
-      }
-    ]
+        label: 'By Time',
+      },
+    ],
   },
   {
     key: 'news',
@@ -63,18 +63,18 @@ export const navigationItems: NavItem[] = [
       {
         key: 'discover',
         path: '/news/discover',
-        label: 'Discover'
+        label: 'Discover',
       },
       {
         key: 'careers',
         path: '/news/careers',
-        label: 'Careers'
-      }
-    ]
+        label: 'Careers',
+      },
+    ],
   },
   {
     key: 'contact',
     path: '/contact',
-    label: 'Contact'
-  }
+    label: 'Contact',
+  },
 ];

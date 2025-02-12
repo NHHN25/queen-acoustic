@@ -10,14 +10,20 @@ export default function NavItem({ item }: { item: NavItemType }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-      <Link 
+    <div
+      className="relative"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <Link
         href={item.path}
-        className="flex items-center px-4 py-2 text-gray-800 hover:text-gold-600 transition-colors"
+        className="flex items-center px-4 py-2 text-gray-800 transition-colors hover:text-gold-600"
       >
         {item.label}
         {item.children && (
-          <ChevronDownIcon className={`w-4 h-4 ml-1 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDownIcon
+            className={`ml-1 h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          />
         )}
       </Link>
 
@@ -28,7 +34,7 @@ export default function NavItem({ item }: { item: NavItemType }) {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute left-0 mt-0 w-48 bg-white shadow-lg rounded-md overflow-hidden z-50"
+              className="absolute left-0 z-50 mt-0 w-48 overflow-hidden rounded-md bg-white shadow-lg"
             >
               {item.children.map((child) => (
                 <Link

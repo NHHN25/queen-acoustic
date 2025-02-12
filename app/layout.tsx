@@ -1,7 +1,7 @@
-import './globals.css'
-import { Roboto_Condensed } from 'next/font/google'
-import Navbar from '@/components/navigation/Navbar'
-import { LanguageProvider } from '@/contexts/LanguageContext'
+import './globals.css';
+import { Roboto_Condensed } from 'next/font/google';
+import Navbar from '@/components/navigation/Navbar';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ['latin', 'vietnamese'],
@@ -9,14 +9,15 @@ const robotoCondensed = Roboto_Condensed({
   variable: '--font-roboto-condensed',
   preload: false,
   display: 'swap',
-})
+});
 
 export const metadata = {
   title: {
     default: 'Queen Acoustic',
-    template: '%s | Queen Acoustic'
+    template: '%s | Queen Acoustic',
   },
-  description: 'Experience the finest acoustic music in an elegant setting with Vietnam\'s top performers',
+  description:
+    "Experience the finest acoustic music in an elegant setting with Vietnam's top performers",
   icons: {
     icon: [
       {
@@ -36,13 +37,9 @@ export const metadata = {
       },
     ],
   },
-}
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
       <body className={robotoCondensed.className}>
@@ -52,5 +49,5 @@ export default function RootLayout({
         </LanguageProvider>
       </body>
     </html>
-  )
+  );
 }
