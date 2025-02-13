@@ -35,10 +35,9 @@ export default function LoginPage() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-black/50" />
-        <div className="absolute inset-0 z-10 bg-black/20" />
         <Image
           loader={imageLoader}
-          src="/images/hero-bg.jpg"  // Changed to absolute path
+          src="../images/hero-bg.jpg"
           alt="Login Background"
           fill
           className="object-cover brightness-75"
