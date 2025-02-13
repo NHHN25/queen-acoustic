@@ -7,8 +7,8 @@ import {
   ClockIcon, 
   MapPinIcon 
 } from '@heroicons/react/24/outline';
-import Image from 'next/image';
 import ContactForm from '@/components/contact/ContactForm';
+import Image from 'next/image';
 import imageLoader from '@/lib/image-loader';
 
 export default function ContactPage() {
@@ -23,10 +23,12 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-black/20" />
           <Image
             loader={imageLoader}
-            src="/images/hero-bg.jpg"
+            src="images/hero-bg.jpg"
             alt="Contact Background"
             fill
             className="object-cover object-center brightness-50"
+            priority
+            unoptimized
           />
         </div>
         <div className="relative z-10 h-full container flex flex-col justify-center items-center text-white text-center">
