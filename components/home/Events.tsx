@@ -6,6 +6,7 @@ import { format, isToday, addDays, isSameDay } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import clsx from 'clsx';
 import Image from 'next/image';
+import imageLoader from '@/lib/image-loader';  // Add this import
 
 // Mock data structure
 type Event = {
@@ -103,7 +104,8 @@ export default function Events() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 backdrop-blur-xl z-10" />
         <Image
-          src="/images/event-bg.jpg"
+          loader={imageLoader}  // Add this
+          src="images/event-bg.jpg"  // Remove leading slash
           alt="Events Background"
           fill
           className="object-cover object-center"
