@@ -111,13 +111,13 @@ export const translations = {
       info: {
         title: 'THÔNG TIN LIÊN HỆ',
         address: 'Địa chỉ',
-        addressValue: '123 Đường ABC, Quận XYZ, TP.HCM',
+        addressValue: '15 Lê Đại Cang, Thắng Lợi, Buôn Ma Thuột, Đắk Lắk, Việt Nam',
         phone: 'Điện thoại',
-        phoneValue: '(+84) 123 456 789',
+        phoneValue: '(+84) 1900 5225',
         email: 'Email',
         emailValue: 'info@queenacoustic.com',
         hours: 'Giờ mở cửa',
-        hoursValue: '18:00 - 23:00 (Thứ 2 - Chủ nhật)',
+        hoursValue: '17:00 - 24:00 (Thứ 3 - Chủ Nhật)',
       }
     },
   },
@@ -232,13 +232,14 @@ export const translations = {
       },
       info: {
         title: 'CONTACT INFORMATION',
-        address: '123 ABC Street, XYZ District, HCMC',
+        address: 'Address',
+        addressValue: '15 Lê Đại Cang, Thắng Lợi, Buôn Ma Thuột, Đắk Lắk, Việt Nam',
         phone: 'Phone',
-        phoneValue: '(+84) 123 456 789',
+        phoneValue: '(+84) 1900 5225',
         email: 'Email',
         emailValue: 'info@queenacoustic.com',
         hours: 'Opening Hours',
-        hoursValue: '18:00 - 23:00 (Monday - Sunday)',
+        hoursValue: '17:00 - 24:00 (Tuesday - Sunday)',
       }
     },
   }
