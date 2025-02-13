@@ -3,8 +3,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/queen-acoustic' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/queen-acoustic' : '',
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, path: false };
+    return config;
+  },
 };
 
 module.exports = nextConfig;
