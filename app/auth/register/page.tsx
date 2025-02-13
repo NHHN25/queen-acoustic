@@ -42,7 +42,7 @@ export default function RegisterPage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <AuthInput
+        <AuthInput<RegisterForm>
           id="name"
           type="text"
           label={t('auth.nameLabel')}

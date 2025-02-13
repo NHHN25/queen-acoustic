@@ -22,16 +22,17 @@ export default function ContactForm() {
   const { t } = useLanguage();
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<ContactFormData>();
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (formData: ContactFormData) => {
     try {
       // Mock form submission
       await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Form submitted:', formData);
       setStatus('success');
-      reset();
-    } catch (error) {
+    } catch (err) {
       setStatus('error');
+      console.error('Form submission error:', err);
     }
   };
 
@@ -44,10 +45,13 @@ export default function ContactForm() {
         <input
           type="text"
           id="name"
-          className={inputStyles}
+          className={`${inputStyles} ${errors.name ? 'border-red-500' : ''}`}
           placeholder={t('contact.form.namePlaceholder')}
-          {...register('name', { required: true })}
+          {...register('name', { required: 'Name is required' })}
         />
+        {errors.name && (
+          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+        )}
       </div>
 
       <div>
@@ -57,10 +61,13 @@ export default function ContactForm() {
         <input
           type="email"
           id="email"
-          className={inputStyles}
+          className={`${inputStyles} ${errors.email ? 'border-red-500' : ''}`}
           placeholder={t('contact.form.emailPlaceholder')}
-          {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+          {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })}
         />
+        {errors.email && (
+          <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+        )}
       </div>
 
       <div>
@@ -70,10 +77,13 @@ export default function ContactForm() {
         <input
           type="tel"
           id="phone"
-          className={inputStyles}
+          className={`${inputStyles} ${errors.phone ? 'border-red-500' : ''}`}
           placeholder={t('contact.form.phonePlaceholder')}
-          {...register('phone', { required: true })}
+          {...register('phone', { required: 'Phone is required' })}
         />
+        {errors.phone && (
+          <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
+        )}
       </div>
 
       <div>
@@ -83,10 +93,13 @@ export default function ContactForm() {
         <textarea
           id="message"
           rows={4}
-          className={`${inputStyles} resize-none`}
+          className={`${inputStyles} resize-none ${errors.message ? 'border-red-500' : ''}`}
           placeholder={t('contact.form.messagePlaceholder')}
-          {...register('message', { required: true })}
+          {...register('message', { required: 'Message is required' })}
         />
+        {errors.message && (
+          <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+        )}
       </div>
 
       {status === 'success' && (

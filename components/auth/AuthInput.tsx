@@ -1,30 +1,30 @@
 import React from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import { UseFormRegister, FieldValues, Path } from 'react-hook-form';
 
-interface AuthInputProps {
-  id: string;
+interface AuthInputProps<TFormValues extends FieldValues> {
+  id: Path<TFormValues>;
   label: string;
   type: string;
   placeholder: string;
-  register: UseFormRegister<any>;
+  register: UseFormRegister<TFormValues>;
   error?: string;
 }
 
-const AuthInput: React.FC<AuthInputProps> = ({
+const AuthInput = <TFormValues extends FieldValues>({
   id,
   label,
   type,
   placeholder,
   register,
   error
-}) => {
+}: AuthInputProps<TFormValues>) => {
   return (
     <div className="space-y-1">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
       </label>
       <input
-        id={id}
+        id={id as string}
         type={type}
         className={`
           w-full px-3 py-2 border rounded-md text-gray-900

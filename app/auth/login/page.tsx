@@ -40,7 +40,7 @@ export default function LoginPage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <AuthInput
+        <AuthInput<LoginForm>
           id="email"
           type="email"
           label={t('auth.emailLabel')}
@@ -49,7 +49,7 @@ export default function LoginPage() {
           error={errors.email?.message}
         />
 
-        <AuthInput
+        <AuthInput<LoginForm>
           id="password"
           type="password"
           label={t('auth.passwordLabel')}

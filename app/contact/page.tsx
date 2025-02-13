@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   EnvelopeIcon, 
@@ -8,6 +7,7 @@ import {
   ClockIcon, 
   MapPinIcon 
 } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import ContactForm from '@/components/contact/ContactForm';
 
 export default function ContactPage() {
@@ -20,10 +20,11 @@ export default function ContactPage() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
           <div className="absolute inset-0 bg-black/20" />
-          <img
+          <Image
             src="/images/hero-bg.jpg"
             alt="Contact Background"
-            className="w-full h-full object-cover object-center brightness-50"
+            fill
+            className="object-cover object-center brightness-50"
           />
         </div>
         <div className="relative z-10 h-full container flex flex-col justify-center items-center text-white text-center">
