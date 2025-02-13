@@ -22,6 +22,10 @@ export default function Navbar() {
     })),
   }));
 
+  const handleNavClick = () => {
+    setIsMobileMenuOpen(false); // Close mobile menu when any nav item is clicked
+  };
+
   return (
     <nav className="fixed z-50 w-full bg-white/90 shadow-md backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -86,6 +90,7 @@ export default function Navbar() {
                 <Link
                   href={item.path}
                   className="block px-3 py-2 text-base font-medium text-gray-800 hover:text-gold-600"
+                  onClick={handleNavClick}
                 >
                   {item.label}
                 </Link>
@@ -96,6 +101,7 @@ export default function Navbar() {
                         key={child.path}
                         href={child.path}
                         className="block px-3 py-2 text-sm text-gray-600 hover:text-gold-600"
+                        onClick={handleNavClick}
                       >
                         {child.label}
                       </Link>
@@ -118,12 +124,14 @@ export default function Navbar() {
                 <Link
                   href="/auth/login"
                   className="text-center text-sm py-2 text-gray-700 hover:text-gold-600 bg-gray-50 rounded-sm transition-colors"
+                  onClick={handleNavClick}
                 >
                   {t('auth.loginButton')}
                 </Link>
                 <Link
                   href="/auth/register"
                   className="text-center text-sm py-2 bg-gold-400 text-white rounded-sm hover:bg-gold-500 transition-colors"
+                  onClick={handleNavClick}
                 >
                   {t('auth.registerButton')}
                 </Link>
