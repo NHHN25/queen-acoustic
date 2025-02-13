@@ -1,4 +1,4 @@
-import Image from 'next/image';
+'use client';
 
 export default function AuthLayout({
   children,
@@ -11,12 +11,10 @@ export default function AuthLayout({
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-black/50" />
         <div className="absolute inset-0 z-10 bg-black/20" />
-        <Image
-          src="/images/hero-bg.jpg"
-          alt="Queen Acoustic Background"
-          fill
-          className="object-cover brightness-75"
-          priority
+        <div 
+          className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center brightness-75"
+          role="img"
+          aria-label="Background"
         />
       </div>
       

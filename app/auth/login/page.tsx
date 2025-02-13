@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AuthInput from '@/components/auth/AuthInput';
 
+
 type LoginForm = {
   email: string;
   password: string;
