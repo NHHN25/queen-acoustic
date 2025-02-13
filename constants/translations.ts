@@ -46,10 +46,79 @@ export const translations = {
       performer: 'Nghệ sĩ',
       schedule: 'Thứ',
     },
+    events: {
+      title: 'CHƯƠNG TRÌNH BIỂU DIỄN',
+      subtitle: 'TUẦN NÀY TẠI QUEEN ACOUSTIC',
+      today: 'Hôm nay',
+      time: 'Thời gian',
+      artist: 'Nghệ sĩ',
+      genre: 'Thể loại',
+      status: {
+        available: 'Còn chỗ',
+        limited: 'Sắp hết chỗ',
+        full: 'Đã đầy'
+      },
+      bookNow: 'Đặt chỗ ngay',
+      noEvents: 'Không có sự kiện nào trong thời gian này'
+    },
     booking: {
       title: 'ĐẶT BÀN NGAY HÔM NAY',
       description: 'Để có trải nghiệm tốt nhất, vui lòng đặt bàn trước',
       button: 'LIÊN HỆ ĐẶT BÀN',
+    },
+    auth: {
+      loginTitle: 'Đăng Nhập',
+      loginSubtitle: 'Chào mừng trở lại Queen Acoustic',
+      registerTitle: 'Đăng Ký',
+      registerSubtitle: 'Tham gia cùng Queen Acoustic',
+      emailLabel: 'Email',
+      emailPlaceholder: 'Nhập địa chỉ email của bạn',
+      passwordLabel: 'Mật khẩu',
+      passwordPlaceholder: 'Nhập mật khẩu của bạn',
+      nameLabel: 'Họ tên',
+      namePlaceholder: 'Nhập họ tên của bạn',
+      loginButton: 'Đăng Nhập',
+      registerButton: 'Đăng Ký',
+      forgotPassword: 'Quên mật khẩu?',
+      noAccount: 'Chưa có tài khoản? ',
+      haveAccount: 'Đã có tài khoản? ',
+      registerLink: 'Đăng ký ngay',
+      loginLink: 'Đăng nhập ngay',
+      loginError: 'Đăng nhập không thành công',
+      registerError: 'Đăng ký không thành công'
+    },
+    error: {
+      pageNotFound: 'Không tìm thấy trang bạn yêu cầu',
+      backHome: 'Trở về trang chủ'
+    },
+    contact: {
+      title: 'LIÊN HỆ',
+      subtitle: 'KẾT NỐI VỚI CHÚNG TÔI',
+      description: 'Hãy để lại thông tin của bạn, chúng tôi sẽ liên hệ trong thời gian sớm nhất.',
+      form: {
+        name: 'Họ và tên',
+        namePlaceholder: 'Nhập họ tên của bạn',
+        email: 'Email',
+        emailPlaceholder: 'Nhập địa chỉ email của bạn',
+        phone: 'Số điện thoại',
+        phonePlaceholder: 'Nhập số điện thoại của bạn',
+        message: 'Lời nhắn',
+        messagePlaceholder: 'Bạn muốn nhắn gì với chúng tôi?',
+        submit: 'Gửi tin nhắn',
+        success: 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.',
+        error: 'Đã có lỗi xảy ra. Vui lòng thử lại sau.'
+      },
+      info: {
+        title: 'THÔNG TIN LIÊN HỆ',
+        address: 'Địa chỉ',
+        addressValue: '123 Đường ABC, Quận XYZ, TP.HCM',
+        phone: 'Điện thoại',
+        phoneValue: '(+84) 123 456 789',
+        email: 'Email',
+        emailValue: 'info@queenacoustic.com',
+        hours: 'Giờ mở cửa',
+        hoursValue: '18:00 - 23:00 (Thứ 2 - Chủ nhật)',
+      }
     },
   },
   en: {
@@ -63,7 +132,7 @@ export const translations = {
       aboutSubmenu: {
         singers: 'Singers',
         band: 'Band',
-        program: 'Program Editing',
+        program: 'Program Compilation',
         about: 'Queen Acoustic',
         system: 'Queen System',
       },
@@ -99,10 +168,78 @@ export const translations = {
       performer: 'Artist',
       schedule: 'Day',
     },
+    events: {
+      title: 'NOW SHOWING',
+      subtitle: 'THIS WEEK AT QUEEN ACOUSTIC',
+      today: 'Today',
+      time: 'Time',
+      artist: 'Artist',
+      genre: 'Genre',
+      status: {
+        available: 'Available',
+        limited: 'Limited Seats',
+        full: 'Fully Booked'
+      },
+      bookNow: 'Book Now',
+      noEvents: 'No events scheduled for this period'
+    },
     booking: {
       title: 'BOOK YOUR TABLE TODAY',
       description: 'For the best experience, please make a reservation in advance',
       button: 'CONTACT FOR BOOKING',
     },
-  },
+    auth: {
+      loginTitle: 'Sign In',
+      loginSubtitle: 'Welcome back to Queen Acoustic',
+      registerTitle: 'Sign Up',
+      registerSubtitle: 'Join Queen Acoustic',
+      emailLabel: 'Email',
+      emailPlaceholder: 'Enter your email address',
+      passwordLabel: 'Password',
+      passwordPlaceholder: 'Enter your password',
+      nameLabel: 'Full Name',
+      namePlaceholder: 'Enter your full name',
+      loginButton: 'Sign In',
+      registerButton: 'Sign Up',
+      forgotPassword: 'Forgot password?',
+      noAccount: "Don't have an account? ",
+      haveAccount: 'Already have an account? ',
+      registerLink: 'Register now',
+      loginLink: 'Sign in now',
+      loginError: 'Login failed',
+      registerError: 'Registration failed'
+    },
+    error: {
+      pageNotFound: 'Page not found',
+      backHome: 'Back to home'
+    },
+    contact: {
+      title: 'CONTACT',
+      subtitle: 'GET IN TOUCH',
+      description: 'Leave us your information, and we will get back to you as soon as possible.',
+      form: {
+        name: 'Full Name',
+        namePlaceholder: 'Enter your full name',
+        email: 'Email',
+        emailPlaceholder: 'Enter your email address',
+        phone: 'Phone Number',
+        phonePlaceholder: 'Enter your phone number',
+        message: 'Message',
+        messagePlaceholder: 'What would you like to tell us?',
+        submit: 'Send Message',
+        success: 'Thank you for reaching out! We will respond as soon as possible.',
+        error: 'An error occurred. Please try again later.'
+      },
+      info: {
+        title: 'CONTACT INFORMATION',
+        address: '123 ABC Street, XYZ District, HCMC',
+        phone: 'Phone',
+        phoneValue: '(+84) 123 456 789',
+        email: 'Email',
+        emailValue: 'info@queenacoustic.com',
+        hours: 'Opening Hours',
+        hoursValue: '18:00 - 23:00 (Monday - Sunday)',
+      }
+    },
+  }
 };

@@ -25,6 +25,7 @@ export default function Navbar() {
   return (
     <nav className="fixed z-50 w-full bg-white/90 shadow-md backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Desktop Layout */}
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex w-32 flex-shrink-0 items-center">
@@ -42,12 +43,21 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Social, Language, and Booking - Desktop */}
-          <div className="hidden items-center justify-end gap-4 md:flex md:w-40">
+          {/* Social, Language, and Auth - Desktop */}
+          <div className="hidden md:flex items-center space-x-4">
             <SocialLanguageBar />
-            <button className="whitespace-nowrap rounded-sm bg-gold-400 px-4 py-2 text-sm text-white transition-all duration-300 hover:bg-gold-500">
-              {language === 'vi' ? 'Đặt Chỗ' : 'Book Now'}
-            </button>
+            <Link
+              href="/auth/login"
+              className="text-m px-4 py-2 text-gray-700 hover:text-gold-600 transition-colors"
+            >
+              {t('auth.loginButton')}
+            </Link>
+            <Link
+              href="/auth/register"
+              className="text-m px-4 py-2 bg-gold-400 text-white rounded-sm hover:bg-gold-500 transition-colors button-shadow"
+            >
+              {t('auth.registerButton')}
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -102,10 +112,26 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Booking Button - Mobile */}
-            <button className="text-stroke-sm mt-4 w-full rounded-md bg-gold-400 px-6 py-2 font-medium text-white transition-colors hover:bg-gold-500">
-              {language === 'vi' ? 'Đặt Chỗ' : 'Book Now'}
-            </button>
+            {/* Action Buttons - Mobile */}
+            <div className="px-4 py-3 border-t border-gray-200">
+              <div className="grid grid-cols-3 gap-2">
+                <Link
+                  href="/auth/login"
+                  className="text-center text-sm py-2 text-gray-700 hover:text-gold-600 bg-gray-50 rounded-sm transition-colors"
+                >
+                  {t('auth.loginButton')}
+                </Link>
+                <Link
+                  href="/auth/register"
+                  className="text-center text-sm py-2 bg-gold-400 text-white rounded-sm hover:bg-gold-500 transition-colors"
+                >
+                  {t('auth.registerButton')}
+                </Link>
+                <button className="text-center text-sm py-2 bg-gold-500 text-white rounded-sm hover:bg-gold-600 transition-colors">
+                  {language === 'vi' ? 'Đặt Chỗ' : 'Book Now'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

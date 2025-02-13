@@ -82,10 +82,13 @@ body {
 
   .button-shadow {
     text-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.3),
-      0 0 4px rgba(0, 0, 0, 0.2),
-      0 0 1px rgba(0, 0, 0, 0.4);
+      0 1px 2px rgba(0, 0, 0, 0.6),
+      0 0 4px rgba(0, 0, 0, 0.6),
+      0 0 1px rgba(0, 0, 0, 0.5);
     -webkit-font-smoothing: antialiased;
+    box-shadow: 
+      0 2px 4px -1px rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.05);
   }
 
   .gold-glow {
@@ -150,5 +153,14 @@ body {
     width: 150px;
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(196, 168, 110, 0.5), transparent);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
