@@ -83,9 +83,9 @@ export default function ContactPage() {
             {/* Map */}
             <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-xl">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2891780080187!2d106.69976147465653!3d10.789470389354142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3a9d8d1bb3%3A0xc4b3b5d355ad5e76!2sQueen%20Acoustic!5e0!3m2!1sen!2s!4v1690042931837!5m2!1sen!2s"
-                width="600"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d486.5561159900795!2d108.0481518730215!3d12.684095575398354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3171f7d5f68ff8ed%3A0x7823582848d57914!2sKaraoke%20Queen!5e0!3m2!1svi!2sus!4v1739418820210!5m2!1svi!2sus"          
                 height="450"
+                width="600"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
