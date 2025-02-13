@@ -151,7 +151,7 @@ export default function Events() {
                        hover:bg-white/95 hover:border-gold-200
                        transition-all duration-300
                        shadow-[0_4px_15px_-3px_rgba(190,141,74,0.1)]
-                       hover:shadow-[0_8px_25px_-5px_rgba(190,141,74,0.3)]"
+                       hover:shadow-[5px_5px_15px_5px_rgba(190,141,74,0.8)]"
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex-1 min-w-0">
