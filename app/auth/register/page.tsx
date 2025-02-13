@@ -40,7 +40,7 @@ export default function RegisterPage() {
         <div className="absolute inset-0 z-10 bg-black/20" />
         <Image
           loader={imageLoader}
-          src="/images/hero-bg.jpg"  // Add leading slash
+          src="/images/hero-bg.jpg" // Changed to absolute path
           alt="Register Background"
           fill
           className="object-cover brightness-75"

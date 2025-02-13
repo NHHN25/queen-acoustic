@@ -39,6 +39,8 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/bcryptjs": "^2.4.6",
+    "@types/estree": "^1.0.6",
+    "@types/json-schema": "^7.0.15",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
