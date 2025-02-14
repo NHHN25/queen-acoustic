@@ -2,6 +2,7 @@ import './globals.css';
 import { Roboto_Condensed } from 'next/font/google';
 import Navbar from '@/components/navigation/Navbar';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import FloatingContact from '@/components/shared/FloatingContact';
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ['latin', 'vietnamese'],
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LanguageProvider>
           <Navbar />
           {children}
+          <FloatingContact />
         </LanguageProvider>
       </body>
     </html>
