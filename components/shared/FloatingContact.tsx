@@ -23,7 +23,7 @@ export default function FloatingContact() {
     {
       id: 'phone',
       icon: <PhoneIcon className="w-6 h-6" />,
-      label: 'Hotline',
+      label: '1900 5225',
       href: 'tel:19005225',
       bgColor: 'bg-green-500',
       hoverBg: 'hover:bg-green-600'
