@@ -3,19 +3,9 @@
 import Link from 'next/link';
 import { US, VN } from 'country-flag-icons/react/3x2';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { FaFacebook } from 'react-icons/fa';
 
 export default function SocialLanguageBar() {
   const { language, setLanguage } = useLanguage();
-
-  const socialLinks = [
-    {
-      name: 'Facebook',
-      href: 'https://www.facebook.com/phongtraqueen.bmt',  // Updated Facebook link
-      icon: FaFacebook,
-    },
-    // ...other social links...
-  ];
 
   return (
     <div className="flex items-center space-x-4">
