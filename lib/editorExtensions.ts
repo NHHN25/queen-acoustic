@@ -25,6 +25,9 @@ export const editorExtensions = [
   }),
   Heading.configure({
     levels: [1, 2, 3, 4, 5, 6],
+    HTMLAttributes: {
+      class: 'text-gray-100',
+    },
   }),
   Image.configure({
     HTMLAttributes: {
@@ -39,24 +42,24 @@ export const editorExtensions = [
   Link.configure({
     openOnClick: false,
     HTMLAttributes: {
-      class: 'text-blue-600 hover:text-blue-800 underline',
+      class: 'text-gold-400 hover:text-gold-300 underline',
     },
   }),
   Table.configure({
     resizable: true,
     HTMLAttributes: {
-      class: 'border-collapse table-auto w-full',
+      class: 'border-collapse table-auto w-full border border-gray-600',
     },
   }),
   TableRow,
   TableCell.configure({
     HTMLAttributes: {
-      class: 'border border-gray-300 p-2',
+      class: 'border border-gray-600 p-2 text-gray-100',
     },
   }),
   TableHeader.configure({
     HTMLAttributes: {
-      class: 'border border-gray-300 p-2 bg-gray-100 font-bold',
+      class: 'border border-gray-600 p-2 bg-gray-700 font-bold text-gray-100',
     },
   }),
   Underline,
@@ -69,7 +72,7 @@ export const editorExtensions = [
   }),
   CodeBlock.configure({
     HTMLAttributes: {
-      class: 'bg-gray-100 rounded-md p-4 font-mono text-sm',
+      class: 'bg-gray-900/50 rounded-md p-4 font-mono text-sm text-gray-300',
     },
   }),
   FontFamily.configure({
@@ -78,6 +81,7 @@ export const editorExtensions = [
   Typography,
   Placeholder.configure({
     placeholder: 'Write something amazing...',
+    emptyEditorClass: 'is-editor-empty text-gray-500',
   }),
 ];
 

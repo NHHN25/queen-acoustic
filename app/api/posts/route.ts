@@ -14,7 +14,10 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     const body: CreatePostBody = await req.json();
@@ -22,13 +25,22 @@ export async function POST(req: Request) {
 
     // Validate input
     if (!title?.trim()) {
-      return new NextResponse("Title is required", { status: 400 });
+      return NextResponse.json(
+        { error: "Title is required" },
+        { status: 400 }
+      );
     }
     if (!content?.trim()) {
-      return new NextResponse("Content is required", { status: 400 });
+      return NextResponse.json(
+        { error: "Content is required" },
+        { status: 400 }
+      );
     }
     if (!['news', 'events'].includes(category)) {
-      return new NextResponse("Invalid category", { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid category" },
+        { status: 400 }
+      );
     }
 
     // Create the post
@@ -51,9 +63,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(post);
   } catch (error) {
-    console.error('Create post error:', error);
-    return new NextResponse(
-      "Internal server error", 
+    console.error('Create post error:', error instanceof Error ? error.message : 'Unknown error');
+    return NextResponse.json(
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -63,7 +75,10 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     const posts = await prisma.post.findMany({
@@ -81,9 +96,9 @@ export async function GET() {
 
     return NextResponse.json(posts);
   } catch (error) {
-    console.error('Fetch posts error:', error);
-    return new NextResponse(
-      "Internal server error", 
+    console.error('Fetch posts error:', error instanceof Error ? error.message : 'Unknown error');
+    return NextResponse.json(
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -93,12 +108,18 @@ export async function PATCH(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     const { id, ...updateData } = await req.json();
     if (!id) {
-      return new NextResponse("Post ID is required", { status: 400 });
+      return NextResponse.json(
+        { error: "Post ID is required" },
+        { status: 400 }
+      );
     }
 
     const post = await prisma.post.update({
@@ -115,9 +136,9 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(post);
   } catch (error) {
-    console.error('Update post error:', error);
-    return new NextResponse(
-      "Internal server error", 
+    console.error('Update post error:', error instanceof Error ? error.message : 'Unknown error');
+    return NextResponse.json(
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -127,12 +148,18 @@ export async function DELETE(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
     const { id } = await req.json();
     if (!id) {
-      return new NextResponse("Post ID is required", { status: 400 });
+      return NextResponse.json(
+        { error: "Post ID is required" },
+        { status: 400 }
+      );
     }
 
     await prisma.post.delete({
@@ -141,9 +168,9 @@ export async function DELETE(req: Request) {
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    console.error('Delete post error:', error);
-    return new NextResponse(
-      "Internal server error", 
+    console.error('Delete post error:', error instanceof Error ? error.message : 'Unknown error');
+    return NextResponse.json(
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

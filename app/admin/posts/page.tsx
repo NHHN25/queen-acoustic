@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useEditor } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { editorExtensions } from '@/lib/editorExtensions';
 import EditorToolbar from '@/components/admin/posts/EditorToolbar';
@@ -40,7 +40,7 @@ export default function PostsManagement() {
     extensions: editorExtensions,
     editorProps: {
       attributes: {
-        class: 'prose prose-lg max-w-none min-h-[300px] focus:outline-none prose-headings:text-gray-900 prose-p:text-gray-800 prose-li:text-gray-800 prose-strong:text-gray-900 bg-white p-4',
+        class: 'prose prose-lg max-w-none min-h-[300px] focus:outline-none prose-headings:text-gray-100 prose-p:text-gray-100 prose-li:text-gray-100 prose-strong:text-gray-50 bg-gray-800/50 p-4 rounded-lg border border-gray-600',
       },
     },
   }, []);
@@ -56,11 +56,16 @@ export default function PostsManagement() {
         try {
           setIsLoading(true);
           const response = await fetch('/api/posts');
-          if (!response.ok) throw new Error('Failed to fetch posts');
           const data = await response.json();
+          
+          if (!response.ok) {
+            throw new Error(data.error || 'Failed to fetch posts');
+          }
+          
           setPosts(data);
         } catch (error) {
-          console.error('Failed to fetch posts:', error);
+          console.error('Failed to fetch posts:', error instanceof Error ? error.message : 'Unknown error');
+          // Optionally show error to user
         } finally {
           setIsLoading(false);
         }
@@ -85,18 +90,25 @@ export default function PostsManagement() {
         body: JSON.stringify({ title, content, category, slug }),
       });
 
-      if (!response.ok) throw new Error('Failed to create post');
+      const data = await response.json();
       
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create post');
+      }
+
       const updatedPostsResponse = await fetch('/api/posts');
-      if (updatedPostsResponse.ok) {
-        const updatedPosts = await updatedPostsResponse.json();
-        setPosts(updatedPosts);
+      const updatedData = await updatedPostsResponse.json();
+      
+      if (!updatedPostsResponse.ok) {
+        throw new Error(updatedData.error || 'Failed to fetch updated posts');
       }
       
+      setPosts(updatedData);
       setTitle('');
       editor.commands.clearContent();
     } catch (error) {
-      console.error('Failed to create post:', error);
+      console.error('Failed to handle post:', error instanceof Error ? error.message : 'Unknown error');
+      // Optionally show error to user
     } finally {
       setIsLoading(false);
     }
@@ -121,30 +133,48 @@ export default function PostsManagement() {
   };
 
   if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 pt-16">
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <PageHeader title={t.title} onPreview={() => setShowPreview(true)} t={t} />
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold text-white">{t.title}</h1>
+            <button
+              type="button"
+              onClick={() => setShowPreview(true)}
+              className="px-4 py-2 bg-gradient-to-r from-gold-600 to-gold-500 text-white rounded-md hover:from-gold-700 hover:to-gold-600 transition-colors"
+            >
+              {t.preview}
+            </button>
+          </div>
           
-          <div className="bg-white shadow-lg rounded-lg border border-gray-200">
+          <div className="bg-gray-800/50 backdrop-blur-sm shadow-xl rounded-lg border border-gray-700">
             <form onSubmit={handleSubmit} className="space-y-6 p-6">
-              <PostForm
-                title={title}
-                category={category}
-                onTitleChange={setTitle}
-                onCategoryChange={setCategory}
-                t={t}
-              />
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={t.postTitle}
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent transition-colors"
+                  required
+                />
+                
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent transition-colors"
+                  required
+                >
+                  <option value="news">{t.categories.news}</option>
+                  <option value="events">{t.categories.events}</option>
+                </select>
+              </div>
 
-              <div className="border rounded-lg overflow-hidden">
+              <div className="border border-gray-600 rounded-lg overflow-hidden bg-gray-800">
                 <EditorToolbar
                   editor={editor}
                   t={t}
@@ -157,14 +187,45 @@ export default function PostsManagement() {
                   onAddImage={addImage}
                   t={t}
                 />
-                <Editor editor={editor} isLoading={isLoading} />
+                <div className="relative">
+                  <EditorContent 
+                    editor={editor}
+                    className="prose prose-invert prose-lg max-w-none min-h-[300px] focus:outline-none"
+                  />
+                  {isLoading && (
+                    <div className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gold-500"></div>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <SubmitButton isLoading={isLoading} t={t} />
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="px-6 py-2 bg-gradient-to-r from-gold-600 to-gold-500 text-white rounded-md font-medium hover:from-gold-700 hover:to-gold-600 disabled:opacity-50 transition-all duration-200 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? t.creating : t.save}
+                </button>
+              </div>
             </form>
           </div>
 
-          <PostList posts={posts} t={t} />
+          <div className="mt-8 space-y-4">
+            {posts.map((post) => (
+              <div key={post.id} className="bg-gray-800/50 backdrop-blur-sm shadow-xl rounded-lg p-6 border border-gray-600 hover:border-gray-500 transition-colors">
+                <h2 className="text-xl font-bold text-gray-100">{post.title}</h2>
+                <p className="mt-1 text-sm text-gray-400">
+                  {t.category}: {t.categories[post.category as keyof typeof t.categories]}
+                </p>
+                <div 
+                  className="mt-4 prose prose-invert prose-sm max-w-none text-gray-300"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <PreviewDialog
