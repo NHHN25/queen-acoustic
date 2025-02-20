@@ -36,6 +36,25 @@ model Booking {
   updatedAt  DateTime @updatedAt
 }
 
+model Employee {
+  id       String    @id @default(cuid()) @map("_id")
+  email    String    @unique
+  password String
+  posts    Post[]
+}
+
+model Post {
+  id        String   @id @default(cuid()) @map("_id")
+  title     String
+  content   String
+  slug      String   @unique
+  category  String   // 'news' or 'events'
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  author    Employee @relation(fields: [authorId], references: [id])
+}
+
 enum Role {
   USER
   ADMIN

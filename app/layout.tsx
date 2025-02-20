@@ -1,8 +1,6 @@
 import './globals.css';
 import { Roboto_Condensed } from 'next/font/google';
-import Navbar from '@/components/navigation/Navbar';
-import { LanguageProvider } from '@/contexts/LanguageContext';
-import FloatingContact from '@/components/shared/FloatingContact';
+import Providers from '@/components/Providers';
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ['latin', 'vietnamese'],
@@ -58,11 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
       <body className={robotoCondensed.className}>
-        <LanguageProvider>
-          <Navbar />
-          {children}
-          <FloatingContact />
-        </LanguageProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
