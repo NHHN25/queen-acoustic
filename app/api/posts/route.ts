@@ -14,13 +14,30 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
+      console.log("No session user ID:", session);
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
       );
     }
 
+    // Debug employee lookup
+    const employee = await prisma.employee.findUnique({
+      where: { id: session.user.id },
+    });
+    
+    console.log("Found employee:", employee);
+    console.log("Session user ID:", session.user.id);
+
+    if (!employee) {
+      return NextResponse.json(
+        { error: `Invalid author ID: ${session.user.id}` },
+        { status: 400 }
+      );
+    }
+
     const body: CreatePostBody = await req.json();
+    console.log("Request body:", body);
     const { title, content, category, slug } = body;
 
     // Validate input
@@ -43,25 +60,39 @@ export async function POST(req: Request) {
       );
     }
 
-    // Create the post
-    const post = await prisma.post.create({
-      data: {
-        title: title.trim(),
-        content,
-        category,
-        slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        authorId: session.user.id,
-      },
-      include: {
-        author: {
-          select: {
-            email: true,
+    // Create the post with verified author
+    try {
+      const post = await prisma.post.create({
+        data: {
+          title: title.trim(),
+          content,
+          category,
+          slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          author: {
+            connect: { 
+              id: employee.id // Use employee.id to ensure correct format
+            }
+          }
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              email: true,
+            },
           },
         },
-      },
-    });
-
-    return NextResponse.json(post);
+      });
+      
+      console.log("Created post:", post);
+      return NextResponse.json(post);
+    } catch (createError) {
+      console.error("Post creation failed:", createError);
+      return NextResponse.json(
+        { error: `Post creation failed: ${createError.message}` },
+        { status: 400 }
+      );
+    }
   } catch (error) {
     console.error('Create post error:', error instanceof Error ? error.message : 'Unknown error');
     return NextResponse.json(
@@ -75,30 +106,51 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Verify the employee exists first
+    const employee = await prisma.employee.findUnique({
+      where: { id: session.user.id }
+    });
+
+    if (!employee) {
+      return NextResponse.json({ error: "Employee not found" }, { status: 404 });
+    }
+
+    // Then fetch posts
     const posts = await prisma.post.findMany({
+      where: {
+        authorId: employee.id // Use the verified employee ID
+      },
       include: {
         author: {
           select: {
-            email: true,
-          },
-        },
+            id: true,
+            email: true
+          }
+        }
       },
       orderBy: {
-        createdAt: 'desc',
-      },
+        createdAt: 'desc'
+      }
     });
 
-    return NextResponse.json(posts);
+    // Return the results, ensuring we never send null
+    return NextResponse.json(posts || []);
+
   } catch (error) {
-    console.error('Fetch posts error:', error instanceof Error ? error.message : 'Unknown error');
+    // Improved error logging
+    const errorDetails = {
+      name: error?.name || 'Unknown',
+      message: error?.message || 'No message',
+      stack: process.env.NODE_ENV === 'development' ? error?.stack : undefined
+    };
+    
+    console.error("GET posts error:", errorDetails);
+
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Failed to fetch posts", details: errorDetails.message },
       { status: 500 }
     );
   }

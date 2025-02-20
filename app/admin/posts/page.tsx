@@ -7,7 +7,6 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { editorExtensions } from '@/lib/editorExtensions';
 import EditorToolbar from '@/components/admin/posts/EditorToolbar';
-import ImageUploader from '@/components/admin/posts/ImageUploader';
 import PostList from '@/components/admin/posts/PostList';
 import PageHeader from '@/components/admin/posts/PageHeader';
 import PostForm from '@/components/admin/posts/PostForm';
@@ -15,6 +14,7 @@ import Editor from '@/components/admin/posts/Editor';
 import SubmitButton from '@/components/admin/posts/SubmitButton';
 import PreviewDialog from '@/components/admin/posts/PreviewDialog';
 import LoadingSpinner from '@/components/shared/LoadingSpinner';
+import { handleImagePaste } from '@/lib/imageUtils';
 
 interface Post {
   id: string;
@@ -34,7 +34,80 @@ export default function PostsManagement() {
   const [category, setCategory] = useState('news');
   const [isLoading, setIsLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
+
+  const handleImageUpload = async (file: File, editor: any) => {
+    if (!editor) return;
+    
+    // Get current selection and store it
+    const { from, to } = editor.state.selection;
+    const wasEmpty = from === to;
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Insert loading placeholder inline
+      const loadingId = `loading-${Date.now()}`;
+      editor.chain().focus().insertContent([
+        {
+          type: 'paragraph',
+          content: [{
+            type: 'text',
+            marks: [{ type: 'loading', attrs: { id: loadingId } }],
+            text: '⌛'
+          }]
+        }
+      ]).run();
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+
+      // Find and replace the loading placeholder with image
+      const transaction = editor.state.tr;
+      const pos = from;
+      
+      // Remove loading indicator
+      editor.chain()
+        .focus()
+        .setMeta('preventUpdate', true)
+        .command(({ tr }) => {
+          const loadingPos = tr.doc.resolve(pos);
+          const node = tr.doc.nodeAt(loadingPos.pos);
+          if (node) {
+            tr.delete(loadingPos.pos, loadingPos.pos + node.nodeSize);
+          }
+          return true;
+        })
+        .run();
+
+      // Insert image at the same position
+      editor.chain()
+        .focus()
+        .setMeta('preventUpdate', true)
+        .command(({ tr }) => {
+          tr.insert(pos, editor.schema.nodes.image.create({ src: data.url }));
+          return true;
+        })
+        .run();
+
+      // Set cursor after image
+      if (!wasEmpty) {
+        editor.chain()
+          .focus()
+          .setTextSelection(pos + 1)
+          .run();
+      }
+        
+    } catch (error) {
+      console.error('Image upload failed:', error);
+      editor.chain().focus().undo().run();
+    }
+  };
 
   const editor = useEditor({
     extensions: editorExtensions,
@@ -42,19 +115,97 @@ export default function PostsManagement() {
       attributes: {
         class: 'prose prose-lg max-w-none min-h-[300px] focus:outline-none prose-headings:text-gray-100 prose-p:text-gray-100 prose-li:text-gray-100 prose-strong:text-gray-50 bg-gray-800/50 p-4 rounded-lg border border-gray-600',
       },
+      handleSelectionUpdate: ({ editor }) => {
+        // Update selected node styling
+        const selection = editor.state.selection;
+        const node = selection.$anchor.parent;
+        if (node.type.name === 'image') {
+          editor.commands.updateAttributes('image', {
+            class: 'selected-image max-w-full h-auto rounded-lg transition-all cursor-pointer'
+          });
+        }
+      },
+      handlePaste: (view, event) => {
+        if (!event.clipboardData) return false;
+        const files = Array.from(event.clipboardData.files);
+        
+        if (files.some(file => file.type.startsWith('image/'))) {
+          event.preventDefault();
+          // Handle one image at a time to maintain proper cursor position
+          const imageFile = files.find(file => file.type.startsWith('image/'));
+          if (imageFile) {
+            handleImageUpload(imageFile, editor);
+          }
+          return true;
+        }
+        return false;
+      },
+      handleDrop: (view, event, slice, moved) => {
+        if (!moved && event.dataTransfer) {
+          const files = Array.from(event.dataTransfer.files);
+          if (files.some(file => file.type.startsWith('image/'))) {
+            event.preventDefault();
+            const imageFile = files.find(file => file.type.startsWith('image/'));
+            if (imageFile) {
+              handleImageUpload(imageFile, editor);
+            }
+            return true;
+          }
+        }
+        return false;
+      },
+      handleKeyDown: (view, event) => {
+        // Handle delete and backspace keys
+        if (event.key === 'Delete' || event.key === 'Backspace') {
+          const { from, to } = view.state.selection;
+          const transaction = view.state.tr;
+          
+          // Check if an image is selected
+          view.state.doc.nodesBetween(from, to, (node, pos) => {
+            if (node.type.name === 'image') {
+              const imageUrl = node.attrs.src;
+              
+              // Extract public_id from Cloudinary URL
+              const matches = imageUrl.match(/queen-acoustic\/posts\/([^/]+)\./);
+              if (matches && matches[1]) {
+                const publicId = `queen-acoustic/posts/${matches[1]}`;
+                
+                // Delete from Cloudinary
+                fetch('/api/upload', {
+                  method: 'DELETE',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ publicId }),
+                }).catch(console.error);
+              }
+            }
+          });
+        }
+        return false;
+      },
+      handleClick: ({ editor, event }) => {
+        const nodePos = editor.view.posAtDOM(event.target as Node, 0);
+        const node = editor.view.state.doc.nodeAt(nodePos);
+        
+        if (node?.type.name === 'image') {
+          editor.commands.setNodeSelection(nodePos);
+          return true;
+        }
+        return false;
+      },
     },
   }, []);
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/admin/login");
+      router.replace("/admin/login");
       return;
     }
+
+    let mounted = true;
 
     if (status === "authenticated") {
       const fetchData = async () => {
         try {
-          setIsLoading(true);
           const response = await fetch('/api/posts');
           const data = await response.json();
           
@@ -62,22 +213,29 @@ export default function PostsManagement() {
             throw new Error(data.error || 'Failed to fetch posts');
           }
           
-          setPosts(data);
+          if (mounted) {
+            setPosts(data);
+            setIsLoading(false);
+          }
         } catch (error) {
           console.error('Failed to fetch posts:', error instanceof Error ? error.message : 'Unknown error');
-          // Optionally show error to user
-        } finally {
-          setIsLoading(false);
+          if (mounted) {
+            setIsLoading(false);
+          }
         }
       };
 
       fetchData();
     }
+
+    return () => {
+      mounted = false;
+    };
   }, [status, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editor) return;
+    if (!editor || !session?.user?.id) return;
 
     setIsLoading(true);
     const slug = title.toLowerCase().replace(/\s+/g, '-');
@@ -87,37 +245,35 @@ export default function PostsManagement() {
       const response = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, content, category, slug }),
+        body: JSON.stringify({ 
+          title, 
+          content, 
+          category, 
+          slug,
+          authorId: session.user.id // Explicitly include authorId
+        }),
       });
 
-      const data = await response.json();
-      
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to create post');
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create post');
       }
 
-      const updatedPostsResponse = await fetch('/api/posts');
-      const updatedData = await updatedPostsResponse.json();
-      
-      if (!updatedPostsResponse.ok) {
-        throw new Error(updatedData.error || 'Failed to fetch updated posts');
+      // Refresh posts list
+      const postsResponse = await fetch('/api/posts');
+      if (!postsResponse.ok) {
+        throw new Error('Failed to refresh posts');
       }
-      
-      setPosts(updatedData);
+
+      const updatedPosts = await postsResponse.json();
+      setPosts(updatedPosts);
       setTitle('');
       editor.commands.clearContent();
     } catch (error) {
-      console.error('Failed to handle post:', error instanceof Error ? error.message : 'Unknown error');
-      // Optionally show error to user
+      console.error('Failed to handle post:', error);
+      // Add error notification here if needed
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const addImage = () => {
-    if (imageUrl && editor) {
-      editor.chain().focus().setImage({ src: imageUrl }).run();
-      setImageUrl('');
     }
   };
 
@@ -132,7 +288,7 @@ export default function PostsManagement() {
     editor?.chain().focus().insertTable({ rows: 3, cols: 3 }).run();
   };
 
-  if (status === "loading") {
+  if (status === "loading" || isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -180,12 +336,6 @@ export default function PostsManagement() {
                   t={t}
                   onAddLink={addLink}
                   onAddTable={addTable}
-                />
-                <ImageUploader
-                  imageUrl={imageUrl}
-                  onImageUrlChange={setImageUrl}
-                  onAddImage={addImage}
-                  t={t}
                 />
                 <div className="relative">
                   <EditorContent 

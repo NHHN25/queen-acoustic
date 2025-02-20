@@ -2,7 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function AdminLogin() {
@@ -22,23 +22,32 @@ export default function AdminLogin() {
         email: email.trim().toLowerCase(),
         password: password,
         redirect: false,
-        callbackUrl: "/admin/posts"
       });
 
       if (result?.error) {
         setError("Invalid email or password");
         console.error("Login error:", result.error);
+        setIsLoading(false);
       } else if (result?.ok) {
+        // Keep loading state true and let the router handle it
         router.push("/admin/posts");
-        router.refresh();
       }
     } catch (error) {
       console.error("Login error:", error);
       setError("An error occurred during login");
-    } finally {
       setIsLoading(false);
     }
   };
+
+  // Don't turn off loading if we're redirecting
+  useEffect(() => {
+    return () => {
+      // Clean up loading state only if we haven't successfully logged in
+      if (error) {
+        setIsLoading(false);
+      }
+    };
+  }, [error]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">

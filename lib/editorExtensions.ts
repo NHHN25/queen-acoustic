@@ -31,9 +31,13 @@ export const editorExtensions = [
   }),
   Image.configure({
     HTMLAttributes: {
-      class: 'max-w-full h-auto rounded-lg',
+      class: 'max-w-full h-auto rounded-lg transition-all cursor-pointer select-none hover:ring-2 hover:ring-gold-500/50',
     },
+    selectable: true,
+    draggable: true,
     allowBase64: true,
+    resizable: true,
+    allowGapCursor: false,
   }),
   TextAlign.configure({
     types: ['heading', 'paragraph'],
@@ -107,3 +111,18 @@ export const colorPalette = [
   '#980000', '#ff0000', '#ff9900', '#ffff00', '#00ff00', '#00ffff', '#4a86e8', '#0000ff', '#9900ff', '#ff00ff',
   '#e6b8af', '#f4cccc', '#fce5cd', '#fff2cc', '#d9ead3', '#d0e0e3', '#c9daf8', '#cfe2f3', '#d9d2e9', '#ead1dc',
 ];
+
+// Add custom CSS to your global styles or component
+export const editorStyles = `
+  .ProseMirror img {
+    transition: all 0.2s ease-in-out;
+  }
+  .ProseMirror img.ProseMirror-selectednode {
+    outline: 3px solid #d4a74c;
+    outline-offset: 2px;
+  }
+  .ProseMirror img:hover {
+    outline: 2px solid #d4a74c50;
+    outline-offset: 2px;
+  }
+`;

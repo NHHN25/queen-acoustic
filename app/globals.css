@@ -163,4 +163,45 @@ body {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Editor Image Styles */
+  .ProseMirror img {
+    transition: all 0.2s ease-in-out;
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 0.5rem;
+    position: relative;
+  }
+  .ProseMirror img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.5rem;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+  }
+  .ProseMirror img.ProseMirror-selectednode {
+    outline: 2px solid #d4a74c;
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+    background-color: rgba(212, 167, 76, 0.1);
+  }
+  .ProseMirror img.ProseMirror-selectednode::after {
+    background-color: rgba(212, 167, 76, 0.1);
+    border: 2px solid #d4a74c;
+  }
+  .ProseMirror img:hover {
+    outline: 2px solid rgba(212, 167, 76, 0.5);
+    outline-offset: 2px;
+  }
+  .ProseMirror img:hover::after {
+    background-color: rgba(212, 167, 76, 0.05);
+  }
+  .ProseMirror .selected-image {
+    outline: 2px solid #d4a74c !important;
+    outline-offset: 2px !important;
+    background-color: rgba(212, 167, 76, 0.1);
+  }
 }

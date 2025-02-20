@@ -11,6 +11,7 @@ import {
   MdFormatAlignRight, MdFormatAlignJustify 
 } from 'react-icons/md';
 import { fontFamilyOptions, headingSizes, colorPalette } from '@/lib/editorExtensions';
+import ImageUploadButton from './ImageUploadButton';
 
 interface EditorToolbarProps {
   editor: Editor | null;
@@ -199,6 +200,11 @@ export default function EditorToolbar({ editor, t }: EditorToolbarProps) {
             editor.isActive('codeBlock'),
             'Code Block'
           )}
+        </div>
+
+        {/* Replace FaImage button with ImageUploadButton */}
+        <div className="flex items-center space-x-1 border-r border-gray-600 pr-2">
+          <ImageUploadButton editor={editor} t={t} />
         </div>
 
         {/* Undo/Redo */}
