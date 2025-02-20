@@ -5,13 +5,14 @@ import { compare } from "bcrypt";
 import NextAuth from "next-auth/next";
 
 export const authOptions: NextAuthOptions = {
+  debug: true, // Temporarily enable debug mode
   session: {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,
   },
   providers: [
     CredentialsProvider({
-      name: "Employee Credentials",
+      name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
@@ -24,23 +25,23 @@ export const authOptions: NextAuthOptions = {
         try {
           const employee = await prisma.employee.findUnique({
             where: {
-              email: credentials.email
-            },
-            select: {
-              id: true,
-              email: true,
-              password: true,
-            },
+              email: credentials.email.toLowerCase()
+            }
           });
 
-          if (!employee?.password) {
-            throw new Error("Invalid credentials");
+          if (!employee) {
+            console.log("No employee found");
+            return null;
           }
 
-          const isValid = await compare(credentials.password, employee.password);
+          const passwordValid = await compare(
+            credentials.password,
+            employee.password
+          );
 
-          if (!isValid) {
-            throw new Error("Invalid credentials");
+          if (!passwordValid) {
+            console.log("Invalid password");
+            return null;
           }
 
           return {
@@ -49,7 +50,8 @@ export const authOptions: NextAuthOptions = {
             role: 'EMPLOYEE'
           };
         } catch (error) {
-          throw new Error("Authentication error");
+          console.error("Auth error:", error);
+          return null;
         }
       }
     })

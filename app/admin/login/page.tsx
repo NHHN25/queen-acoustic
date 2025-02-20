@@ -18,19 +18,21 @@ export default function AdminLogin() {
 
     try {
       const result = await signIn("credentials", {
-        email,
-        password,
+        email: email.trim().toLowerCase(),
+        password: password,
         redirect: false,
+        callbackUrl: "/admin/posts"
       });
 
       if (result?.error) {
-        setError("Invalid credentials");
-        return;
+        setError("Invalid email or password");
+        console.error("Login error:", result.error);
+      } else if (result?.ok) {
+        router.push("/admin/posts");
+        router.refresh();
       }
-
-      router.push("/admin/posts");
-      router.refresh();
     } catch (error) {
+      console.error("Login error:", error);
       setError("An error occurred during login");
     } finally {
       setIsLoading(false);
