@@ -13,38 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  email      String    @unique
-  name       String?
-  password   String
-  role       Role      @default(USER)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  bookings   Booking[]
-}
-
-model Booking {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
-  date       DateTime
-  guests     Int
-  status     BookingStatus @default(PENDING)
-  notes      String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
 model Employee {
-  id       String    @id @default(cuid()) @map("_id")
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
   email    String    @unique
   password String
   posts    Post[]
 }
 
 model Post {
-  id        String   @id @default(cuid()) @map("_id")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   content   String
   slug      String   @unique
@@ -52,17 +29,11 @@ model Post {
   images    String[] // Add this field to store image URLs
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  authorId  String
+  authorId  String   @db.ObjectId
   author    Employee @relation(fields: [authorId], references: [id])
 }
 
 enum Role {
   USER
   ADMIN
-}
-
-enum BookingStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
 }

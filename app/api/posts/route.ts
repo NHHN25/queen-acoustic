@@ -13,92 +13,43 @@ interface CreatePostBody {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
+    
     if (!session?.user?.id) {
-      console.log("No session user ID:", session);
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Debug employee lookup
     const employee = await prisma.employee.findUnique({
       where: { id: session.user.id },
+      select: { id: true, email: true }
     });
-    
-    console.log("Found employee:", employee);
-    console.log("Session user ID:", session.user.id);
 
     if (!employee) {
-      return NextResponse.json(
-        { error: `Invalid author ID: ${session.user.id}` },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Employee not found" }, { status: 404 });
     }
 
-    const body: CreatePostBody = await req.json();
-    console.log("Request body:", body);
-    const { title, content, category, slug } = body;
-
-    // Validate input
-    if (!title?.trim()) {
-      return NextResponse.json(
-        { error: "Title is required" },
-        { status: 400 }
-      );
-    }
-    if (!content?.trim()) {
-      return NextResponse.json(
-        { error: "Content is required" },
-        { status: 400 }
-      );
-    }
-    if (!['news', 'events'].includes(category)) {
-      return NextResponse.json(
-        { error: "Invalid category" },
-        { status: 400 }
-      );
-    }
-
-    // Create the post with verified author
-    try {
-      const post = await prisma.post.create({
-        data: {
-          title: title.trim(),
-          content,
-          category,
-          slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-          author: {
-            connect: { 
-              id: employee.id // Use employee.id to ensure correct format
-            }
+    const { title, content, category, slug } = await req.json();
+    
+    const post = await prisma.post.create({
+      data: {
+        title,
+        content,
+        category,
+        slug,
+        authorId: employee.id
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true
           }
-        },
-        include: {
-          author: {
-            select: {
-              id: true,
-              email: true,
-            },
-          },
-        },
-      });
-      
-      console.log("Created post:", post);
-      return NextResponse.json(post);
-    } catch (createError) {
-      console.error("Post creation failed:", createError);
-      return NextResponse.json(
-        { error: `Post creation failed: ${createError.message}` },
-        { status: 400 }
-      );
-    }
+        }
+      }
+    });
+
+    return NextResponse.json(post);
   } catch (error) {
-    console.error('Create post error:', error instanceof Error ? error.message : 'Unknown error');
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to create post" }, { status: 500 });
   }
 }
 
@@ -109,20 +60,17 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify the employee exists first
     const employee = await prisma.employee.findUnique({
-      where: { id: session.user.id }
+      where: { id: session.user.id },
+      select: { id: true }
     });
 
     if (!employee) {
       return NextResponse.json({ error: "Employee not found" }, { status: 404 });
     }
 
-    // Then fetch posts
     const posts = await prisma.post.findMany({
-      where: {
-        authorId: employee.id // Use the verified employee ID
-      },
+      where: { authorId: employee.id },
       include: {
         author: {
           select: {
@@ -131,28 +79,12 @@ export async function GET() {
           }
         }
       },
-      orderBy: {
-        createdAt: 'desc'
-      }
+      orderBy: { createdAt: 'desc' }
     });
 
-    // Return the results, ensuring we never send null
-    return NextResponse.json(posts || []);
-
+    return NextResponse.json(posts);
   } catch (error) {
-    // Improved error logging
-    const errorDetails = {
-      name: error?.name || 'Unknown',
-      message: error?.message || 'No message',
-      stack: process.env.NODE_ENV === 'development' ? error?.stack : undefined
-    };
-    
-    console.error("GET posts error:", errorDetails);
-
-    return NextResponse.json(
-      { error: "Failed to fetch posts", details: errorDetails.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 });
   }
 }
 
