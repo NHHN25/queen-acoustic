@@ -120,6 +120,39 @@ export const translations = {
         hoursValue: '17:00 - 24:00 (Thứ 3 - Chủ Nhật)',
       }
     },
+    admin: {
+      posts: {
+        title: 'Quản Lý Bài Viết',
+        createPost: 'Tạo Bài Viết',
+        preview: 'Xem Trước',
+        postTitle: 'Tiêu đề bài viết',
+        category: 'Danh mục',
+        content: 'Nội dung',
+        imageUrl: 'URL hình ảnh',
+        addImage: 'Thêm Hình',
+        save: 'Lưu Bài Viết',
+        creating: 'Đang lưu...',
+        categories: {
+          news: 'Tin Tức',
+          events: 'Sự Kiện'
+        },
+        editor: {
+          bold: 'In đậm',
+          italic: 'In nghiêng',
+          underline: 'Gạch chân',
+          bulletList: 'Danh sách không thứ tự',
+          orderedList: 'Danh sách có thứ tự',
+          heading2: 'Tiêu đề 2',
+          heading3: 'Tiêu đề 3',
+          alignLeft: 'Căn trái',
+          alignCenter: 'Căn giữa',
+          alignRight: 'Căn phải',
+          addLink: 'Thêm liên kết',
+          addTable: 'Thêm bảng',
+          enterUrl: 'Nhập URL:'
+        }
+      }
+    }
   },
   en: {
     nav: {
@@ -242,5 +275,38 @@ export const translations = {
         hoursValue: '17:00 - 24:00 (Tuesday - Sunday)',
       }
     },
+    admin: {
+      posts: {
+        title: 'Posts Management',
+        createPost: 'Create Post',
+        preview: 'Preview',
+        postTitle: 'Post title',
+        category: 'Category',
+        content: 'Content',
+        imageUrl: 'Image URL',
+        addImage: 'Add Image',
+        save: 'Save Post',
+        creating: 'Saving...',
+        categories: {
+          news: 'News',
+          events: 'Events'
+        },
+        editor: {
+          bold: 'Bold',
+          italic: 'Italic',
+          underline: 'Underline',
+          bulletList: 'Bullet List',
+          orderedList: 'Ordered List',
+          heading2: 'Heading 2',
+          heading3: 'Heading 3',
+          alignLeft: 'Align Left',
+          alignCenter: 'Align Center',
+          alignRight: 'Align Right',
+          addLink: 'Add Link',
+          addTable: 'Add Table',
+          enterUrl: 'Enter URL:'
+        }
+      }
+    }
   }
 };

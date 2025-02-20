@@ -5,7 +5,7 @@ import { compare } from "bcrypt";
 import NextAuth from "next-auth/next";
 
 export const authOptions: NextAuthOptions = {
-  debug: true, // Temporarily enable debug mode
+  debug: false, // Disable debug mode in production
   session: {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,

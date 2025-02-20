@@ -3,9 +3,18 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Heading from '@tiptap/extension-heading';
+import { useEditor } from '@tiptap/react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { editorExtensions } from '@/lib/editorExtensions';
+import EditorToolbar from '@/components/admin/posts/EditorToolbar';
+import ImageUploader from '@/components/admin/posts/ImageUploader';
+import PostList from '@/components/admin/posts/PostList';
+import PageHeader from '@/components/admin/posts/PageHeader';
+import PostForm from '@/components/admin/posts/PostForm';
+import Editor from '@/components/admin/posts/Editor';
+import SubmitButton from '@/components/admin/posts/SubmitButton';
+import PreviewDialog from '@/components/admin/posts/PreviewDialog';
+import LoadingSpinner from '@/components/shared/LoadingSpinner';
 
 interface Post {
   id: string;
@@ -18,40 +27,48 @@ interface Post {
 export default function PostsManagement() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { language, translations } = useLanguage();
+  const t = translations[language].admin.posts;
   const [posts, setPosts] = useState<Post[]>([]);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('news');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   const editor = useEditor({
-    extensions: [StarterKit, Heading],
+    extensions: editorExtensions,
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose min-h-[200px] focus:outline-none',
+        class: 'prose prose-lg max-w-none min-h-[300px] focus:outline-none prose-headings:text-gray-900 prose-p:text-gray-800 prose-li:text-gray-800 prose-strong:text-gray-900 bg-white p-4',
       },
     },
-  });
+  }, []);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/admin/login");
-    } else {
-      fetchPosts();
+      return;
+    }
+
+    if (status === "authenticated") {
+      const fetchData = async () => {
+        try {
+          setIsLoading(true);
+          const response = await fetch('/api/posts');
+          if (!response.ok) throw new Error('Failed to fetch posts');
+          const data = await response.json();
+          setPosts(data);
+        } catch (error) {
+          console.error('Failed to fetch posts:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchData();
     }
   }, [status, router]);
-
-  const fetchPosts = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch('/api/posts');
-      const data = await response.json();
-      setPosts(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,9 +87,14 @@ export default function PostsManagement() {
 
       if (!response.ok) throw new Error('Failed to create post');
       
+      const updatedPostsResponse = await fetch('/api/posts');
+      if (updatedPostsResponse.ok) {
+        const updatedPosts = await updatedPostsResponse.json();
+        setPosts(updatedPosts);
+      }
+      
       setTitle('');
       editor.commands.clearContent();
-      fetchPosts();
     } catch (error) {
       console.error('Failed to create post:', error);
     } finally {
@@ -80,85 +102,77 @@ export default function PostsManagement() {
     }
   };
 
-  if (status === "loading" || isLoading) {
-    return <div className="flex justify-center p-8">Loading...</div>;
+  const addImage = () => {
+    if (imageUrl && editor) {
+      editor.chain().focus().setImage({ src: imageUrl }).run();
+      setImageUrl('');
+    }
+  };
+
+  const addLink = () => {
+    const url = window.prompt('Enter URL:');
+    if (url && editor) {
+      editor.chain().focus().setLink({ href: url }).run();
+    }
+  };
+
+  const addTable = () => {
+    editor?.chain().focus().insertTable({ rows: 3, cols: 3 }).run();
+  };
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="mb-6 text-3xl font-bold">Posts Management</h1>
-      
-      <form onSubmit={handleSubmit} className="mb-8 space-y-4">
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Post title"
-          className="w-full p-2 border rounded"
-          required
-        />
-        
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
-        >
-          <option value="news">News</option>
-          <option value="events">Events</option>
-        </select>
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-0">
+          <PageHeader title={t.title} onPreview={() => setShowPreview(true)} t={t} />
+          
+          <div className="bg-white shadow-lg rounded-lg border border-gray-200">
+            <form onSubmit={handleSubmit} className="space-y-6 p-6">
+              <PostForm
+                title={title}
+                category={category}
+                onTitleChange={setTitle}
+                onCategoryChange={setCategory}
+                t={t}
+              />
 
-        <div className="border rounded p-2">
-          <div className="border-b p-2 mb-2 flex gap-2">
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
-              className="p-1 border rounded hover:bg-gray-100"
-            >
-              H1
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-              className="p-1 border rounded hover:bg-gray-100"
-            >
-              H2
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleBold().run()}
-              className="p-1 border rounded hover:bg-gray-100"
-            >
-              Bold
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleItalic().run()}
-              className="p-1 border rounded hover:bg-gray-100"
-            >
-              Italic
-            </button>
+              <div className="border rounded-lg overflow-hidden">
+                <EditorToolbar
+                  editor={editor}
+                  t={t}
+                  onAddLink={addLink}
+                  onAddTable={addTable}
+                />
+                <ImageUploader
+                  imageUrl={imageUrl}
+                  onImageUrlChange={setImageUrl}
+                  onAddImage={addImage}
+                  t={t}
+                />
+                <Editor editor={editor} isLoading={isLoading} />
+              </div>
+
+              <SubmitButton isLoading={isLoading} t={t} />
+            </form>
           </div>
-          <EditorContent editor={editor} />
+
+          <PostList posts={posts} t={t} />
         </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-        >
-          Create Post
-        </button>
-      </form>
-
-      <div className="space-y-4">
-        {posts.map((post) => (
-          <div key={post.id} className="border p-4 rounded">
-            <h2 className="text-xl font-bold">{post.title}</h2>
-            <p className="text-gray-600">Category: {post.category}</p>
-          </div>
-        ))}
       </div>
+      <PreviewDialog
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+        title={title}
+        content={editor?.getHTML()}
+      />
     </div>
   );
 }

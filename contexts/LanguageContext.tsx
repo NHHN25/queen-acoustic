@@ -8,25 +8,38 @@ type Language = 'vi' | 'en';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => any;
+  translations: typeof translations;
+  t: (key: string) => any; // Keep the t function for backward compatibility
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextType>({
+  language: 'vi',
+  setLanguage: () => {},
+  translations: translations,
+  t: () => '' // Default empty function
+});
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('vi');
 
+  // Keep the t function for backward compatibility
   const t = (key: string) => {
     const keys = key.split('.');
     let value: any = translations[language];
     for (const k of keys) {
+      if (!value?.[k]) return key; // Return key if translation not found
       value = value[k];
     }
     return value;
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ 
+      language, 
+      setLanguage, 
+      translations,
+      t 
+    }}>
       {children}
     </LanguageContext.Provider>
   );
@@ -34,7 +47,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;

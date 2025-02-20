@@ -10,20 +10,21 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { t, language } = useLanguage();
+  const { language, translations } = useLanguage();
+  const t = translations[language];
 
   // Transform navigation items with translations
   const translatedNavItems = navigationItems.map((item) => ({
     ...item,
-    label: t(`nav.${item.key}`),
+    label: t.nav[item.key],
     children: item.children?.map((child) => ({
       ...child,
-      label: t(`nav.${item.key}Submenu.${child.key}`),
+      label: t.nav[item.key + 'Submenu'][child.key],
     })),
   }));
 
   const handleNavClick = () => {
-    setIsMobileMenuOpen(false); // Close mobile menu when any nav item is clicked
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -54,13 +55,13 @@ export default function Navbar() {
               href="/auth/login"
               className="text-m px-4 py-2 text-gray-700 hover:text-gold-600 transition-colors"
             >
-              {t('auth.loginButton')}
+              {translations[language].auth.loginButton}
             </Link>
             <Link
               href="/auth/register"
               className="text-m px-4 py-2 bg-gold-400 text-white rounded-sm hover:bg-gold-500 transition-colors button-shadow"
             >
-              {t('auth.registerButton')}
+              {translations[language].auth.registerButton}
             </Link>
           </div>
 
@@ -126,17 +127,17 @@ export default function Navbar() {
                   className="text-center text-sm py-2 text-gray-700 hover:text-gold-600 bg-gray-50 rounded-sm transition-colors"
                   onClick={handleNavClick}
                 >
-                  {t('auth.loginButton')}
+                  {translations[language].auth.loginButton}
                 </Link>
                 <Link
                   href="/auth/register"
                   className="text-center text-sm py-2 bg-gold-400 text-white rounded-sm hover:bg-gold-500 transition-colors"
                   onClick={handleNavClick}
                 >
-                  {t('auth.registerButton')}
+                  {translations[language].auth.registerButton}
                 </Link>
                 <button className="text-center text-sm py-2 bg-gold-500 text-white rounded-sm hover:bg-gold-600 transition-colors">
-                  {language === 'vi' ? 'Đặt Chỗ' : 'Book Now'}
+                  {translations[language].booking.button}
                 </button>
               </div>
             </div>
