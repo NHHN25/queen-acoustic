@@ -1,13 +1,14 @@
 import { FaImage } from 'react-icons/fa';
 import { Editor } from '@tiptap/react';
 import { useState, useRef } from 'react';
+import { TranslationKey } from '@/types/translations';
 
 interface ImageUploadButtonProps {
-  editor: Editor | null;
-  t: any;
+  editor: Editor;
+  translations: TranslationKey['admin']['posts'];
 }
 
-export default function ImageUploadButton({ editor, t }: ImageUploadButtonProps) {
+export default function ImageUploadButton({ editor, translations: t }: ImageUploadButtonProps) {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -26,7 +27,6 @@ export default function ImageUploadButton({ editor, t }: ImageUploadButtonProps)
       });
 
       const data = await response.json();
-      
       if (!response.ok) throw new Error(data.error);
 
       editor.chain().focus().setImage({ src: data.url }).run();
@@ -54,10 +54,13 @@ export default function ImageUploadButton({ editor, t }: ImageUploadButtonProps)
         onClick={() => fileInputRef.current?.click()}
         disabled={isUploading}
         className="p-2 rounded hover:bg-gray-700 text-gray-300 hover:text-gold-400 disabled:opacity-50"
-        title={t.editor.addImage}
+        title={t.editor?.addImage || 'Add Image'}
       >
         {isUploading ? (
-          <div className="animate-spin rounded-full h-5 w-5 border-2 border-gold-500 border-t-transparent" />
+          <div 
+            className="animate-spin rounded-full h-5 w-5 border-2 border-gold-500 border-t-transparent" 
+            title={t.editor.uploadingImage}
+          />
         ) : (
           <FaImage />
         )}

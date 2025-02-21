@@ -155,7 +155,20 @@ export const translations = {
           alignRight: 'Căn phải',
           addLink: 'Thêm liên kết',
           addTable: 'Thêm bảng',
-          enterUrl: 'Nhập URL:'
+          enterUrl: 'Nhập URL:',
+          alignJustify: 'Căn đều',
+          heading: 'Tiêu đề',
+          paragraph: 'Đoạn văn',
+          quote: 'Trích dẫn',
+          blockquote: 'Khối trích dẫn',
+          subscript: 'Chỉ số dưới',
+          superscript: 'Chỉ số trên',
+          codeBlock: 'Khối mã',
+          undo: 'Hoàn tác',
+          redo: 'Làm lại',
+          clearFormat: 'Xóa định dạng',
+          addImage: 'Thêm hình ảnh',
+          uploadingImage: 'Đang tải lên...'
         }
       }
     }
@@ -316,7 +329,20 @@ export const translations = {
           alignRight: 'Align Right',
           addLink: 'Add Link',
           addTable: 'Add Table',
-          enterUrl: 'Enter URL:'
+          enterUrl: 'Enter URL:',
+          alignJustify: 'Justify',
+          heading: 'Heading',
+          paragraph: 'Paragraph',
+          quote: 'Quote',
+          blockquote: 'Block Quote',
+          subscript: 'Subscript',
+          superscript: 'Superscript',
+          codeBlock: 'Code Block',
+          undo: 'Undo',
+          redo: 'Redo',
+          clearFormat: 'Clear Formatting',
+          addImage: 'Add Image',
+          uploadingImage: 'Uploading...'
         }
       }
     }

@@ -16,10 +16,10 @@ export default function Navbar() {
   // Transform navigation items with translations
   const translatedNavItems = navigationItems.map((item) => ({
     ...item,
-    label: t.nav[item.key],
+    label: ((t.nav as unknown) as Record<string,string>)[item.key],
     children: item.children?.map((child) => ({
       ...child,
-      label: t.nav[item.key + 'Submenu'][child.key],
+      label: ((t.nav[`${item.key}Submenu` as keyof typeof t.nav] as unknown) as Record<string,string>)[child.key],
     })),
   }));
 

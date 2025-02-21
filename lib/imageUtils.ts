@@ -1,4 +1,7 @@
-export async function handleImagePaste(view: any, event: ClipboardEvent, editor: any) {
+import { Editor } from '@tiptap/core';
+import type { EditorView } from 'prosemirror-view';
+
+export async function handleImagePaste(view: EditorView, event: ClipboardEvent, editor: Editor) {
   const items = Array.from(event.clipboardData?.items || []);
   const imageItems = items.filter(item => item.type.startsWith('image/'));
 

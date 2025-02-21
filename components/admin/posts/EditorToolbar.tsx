@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/react';
 import { useState } from 'react';
 import { 
   FaBold, FaItalic, FaUnderline, FaListUl, FaListOl,
-  FaSubscript, FaSuperscript, FaCode, FaPalette, FaFont,
+  FaSubscript, FaSuperscript, FaCode, FaFont,
   FaUndo, FaRedo, FaEraser, FaQuoteRight, FaLink, FaTable,
   FaParagraph
 } from 'react-icons/fa';
@@ -11,18 +11,18 @@ import {
   MdFormatAlignRight, MdFormatAlignJustify,
   MdFormatQuote
 } from 'react-icons/md';
-import { fontFamilyOptions, headingSizes, colorPalette } from '@/lib/editorExtensions';
+import { fontFamilyOptions, headingSizes } from '@/lib/editorExtensions';
 import ImageUploadButton from './ImageUploadButton';
+import { TranslationKey } from '@/types/translations';
 
 interface EditorToolbarProps {
   editor: Editor | null;
-  t: any;
+  t: TranslationKey['admin']['posts'];
   onAddLink?: () => void;
   onAddTable?: () => void;
 }
 
 export default function EditorToolbar({ editor, t, onAddLink, onAddTable }: EditorToolbarProps) {
-  const [showColors, setShowColors] = useState(false);
   const [showFonts, setShowFonts] = useState(false);
   const [showHeadings, setShowHeadings] = useState(false);
 
@@ -49,14 +49,14 @@ export default function EditorToolbar({ editor, t, onAddLink, onAddTable }: Edit
   return (
     <div className="bg-gray-800 border-b border-gray-600 p-1 sticky top-0 z-10">
       <div className="flex flex-wrap gap-1 items-center">
-        {/* Text Style Controls */}
+        {/* Heading Control */}
         <div className="flex items-center space-x-1 border-r border-gray-600 pr-2">
           <div className="relative">
             <button
               onClick={() => setShowHeadings(!showHeadings)}
               className="flex items-center px-3 py-1.5 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-gold-400 rounded"
             >
-              {t.editor.heading || 'Heading'}
+              {t.editor.heading}
             </button>
             {showHeadings && (
               <div className="absolute top-full left-0 mt-1 w-40 bg-gray-800 shadow-lg rounded-md border border-gray-600 py-1 z-50">
@@ -215,52 +215,52 @@ export default function EditorToolbar({ editor, t, onAddLink, onAddTable }: Edit
           )}
         </div>
 
-        {/* Additional Controls */}
+        {/* Additional Controls with translations */}
         <div className="flex items-center space-x-1">
           {toolbarButton(
             () => editor.chain().focus().toggleSubscript().run(),
             <FaSubscript />,
             editor.isActive('subscript'),
-            'Subscript'
+            t.editor.subscript
           )}
           {toolbarButton(
             () => editor.chain().focus().toggleSuperscript().run(),
             <FaSuperscript />,
             editor.isActive('superscript'),
-            'Superscript'
+            t.editor.superscript
           )}
           {toolbarButton(
             () => editor.chain().focus().toggleCodeBlock().run(),
             <FaCode />,
             editor.isActive('codeBlock'),
-            'Code Block'
+            t.editor.codeBlock
           )}
         </div>
 
         {/* Replace FaImage button with ImageUploadButton */}
         <div className="flex items-center space-x-1 border-r border-gray-600 pr-2">
-          <ImageUploadButton editor={editor} t={t} />
+          <ImageUploadButton editor={editor} translations={t} />
         </div>
 
-        {/* Undo/Redo */}
+        {/* Undo/Redo with translations */}
         <div className="flex items-center space-x-1 border-l border-gray-600 pl-2">
           {toolbarButton(
             () => editor.chain().focus().undo().run(),
             <FaUndo />,
             false,
-            t.editor?.undo || 'Undo'
+            t.editor.undo
           )}
           {toolbarButton(
             () => editor.chain().focus().redo().run(),
             <FaRedo />,
             false,
-            t.editor?.redo || 'Redo'
+            t.editor.redo
           )}
           {toolbarButton(
             () => editor.chain().focus().clearNodes().unsetAllMarks().run(),
             <FaEraser />,
             false,
-            t.editor?.clearFormat || 'Clear Formatting'
+            t.editor.clearFormat
           )}
         </div>
       </div>

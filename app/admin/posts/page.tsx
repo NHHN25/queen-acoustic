@@ -2,8 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEffect, useState, useCallback } from "react";
+import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { editorExtensions } from '@/lib/editorExtensions';
 import EditorToolbar from '@/components/admin/posts/EditorToolbar';
@@ -24,14 +24,13 @@ export default function PostsManagement() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<PostCategory>('news');
-  const [activeCategory, setActiveCategory] = useState<PostCategory>('news');
   const [isLoading, setIsLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [editorMode, setEditorMode] = useState<EditorMode>('create');
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [activeView, setActiveView] = useState<'editor' | PostCategory>('editor');
 
-  const handleImageUpload = async (file: File, editor: any) => {
+  const handleImageUpload = async (file: File, editor: Editor | null) => {
     if (!editor) return;
     
     const { from, to } = editor.state.selection;
@@ -99,7 +98,7 @@ export default function PostsManagement() {
         if (files.some(file => file.type.startsWith('image/'))) {
           event.preventDefault();
           const imageFile = files.find(file => file.type.startsWith('image/'));
-          if (imageFile) {
+          if (imageFile && editor) {
             handleImageUpload(imageFile, editor);
           }
           return true;
@@ -112,7 +111,7 @@ export default function PostsManagement() {
           if (files.some(file => file.type.startsWith('image/'))) {
             event.preventDefault();
             const imageFile = files.find(file => file.type.startsWith('image/'));
-            if (imageFile) {
+            if (imageFile && editor) {
               handleImageUpload(imageFile, editor);
             }
             return true;
@@ -131,17 +130,17 @@ export default function PostsManagement() {
 
     let mounted = true;
 
-    if (status === "authenticated") {
+    if (status === "authenticated" && activeView !== 'editor') {
       const fetchData = async () => {
         try {
-          const response = await fetch(`/api/posts?category=${activeCategory}`);
+          const response = await fetch(`/api/posts?category=${activeView}`);
           const data = await response.json();
           
           if (!response.ok) {
             throw new Error(data.error || 'Failed to fetch posts');
           }
           
-          if (mounted) {
+          if ( mounted) {
             setPosts(data);
             setIsLoading(false);
           }
@@ -159,7 +158,7 @@ export default function PostsManagement() {
     return () => {
       mounted = false;
     };
-  }, [status, router, activeCategory]);
+  }, [status, router, activeView]);
 
   const resetEditor = () => {
     setTitle('');
@@ -234,7 +233,7 @@ export default function PostsManagement() {
     }
   };
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     if (activeView === 'editor') return;
     
     try {
@@ -245,13 +244,13 @@ export default function PostsManagement() {
     } catch (error) {
       console.error('Failed to fetch posts:', error);
     }
-  };
+  }, [activeView]);
 
   useEffect(() => {
     if (activeView !== 'editor') {
       fetchPosts();
     }
-  }, [activeView]);
+  }, [activeView, fetchPosts]);
 
   const addLink = () => {
     const url = window.prompt('Enter URL:');

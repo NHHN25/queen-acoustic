@@ -1,14 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import prisma from "@/lib/prisma";
-import { authOptions } from "../auth/[...nextauth]/route";
-
-interface CreatePostBody {
-  title: string;
-  content: string;
-  category: string;
-  slug: string;
-}
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
@@ -27,7 +20,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Employee not found" }, { status: 404 });
     }
 
-    const { title, content, category, slug } = await req.json();
+    const { title, content, category, slug }: {
+      title: string;
+      content: string;
+      category: string;
+      slug: string;
+    } = await req.json();
     
     const post = await prisma.post.create({
       data: {
@@ -49,6 +47,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(post);
   } catch (error) {
+    console.error('Failed to create post:', error);
     return NextResponse.json({ error: "Failed to create post" }, { status: 500 });
   }
 }
@@ -90,6 +89,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(posts);
   } catch (error) {
+    console.error('Failed to fetch posts:', error);
     return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 });
   }
 }
