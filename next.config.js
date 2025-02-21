@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  basePath: '',  // Ensure base path is empty
+  assetPrefix: '',  // Ensure asset prefix is empty
   images: {
+    unoptimized: true,
+    domains: ['localhost'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -15,19 +19,6 @@ const nextConfig = {
     formats: ['image/webp'],
   },
   serverExternalPackages: ['sharp'],
-  async headers() {
-    return [
-      {
-        source: '/images/:all*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;

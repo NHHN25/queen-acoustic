@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AuthInput from '@/components/auth/AuthInput';
 import Image from 'next/image';
-import imageLoader from '@/lib/image-loader';
 
 type RegisterForm = {
   name: string;
@@ -39,7 +38,6 @@ export default function RegisterPage() {
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-black/50" />
         <div className="absolute inset-0 z-10 bg-black/20" />
         <Image
-          loader={imageLoader}
           src="../images/hero-bg.jpg"
           alt="Register Background"
           fill

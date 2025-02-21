@@ -9,7 +9,6 @@ import {
 } from '@heroicons/react/24/outline';
 import ContactForm from '@/components/contact/ContactForm';
 import Image from 'next/image';
-import imageLoader from '@/lib/image-loader';
 
 export default function ContactPage() {
   const { t } = useLanguage();
@@ -22,8 +21,7 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
           <div className="absolute inset-0 bg-black/20" />
           <Image
-            loader={imageLoader}
-            src="images/hero-bg.jpg"
+            src="/images/hero-bg.jpg"
             alt="Contact Background"
             fill
             className="object-cover object-center brightness-50"

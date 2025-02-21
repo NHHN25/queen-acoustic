@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
-import imageLoader from '@/lib/image-loader';
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -14,8 +13,7 @@ export default function Hero() {
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/70 to-black/50" />
         <div className="absolute inset-0 z-10 bg-black/20" />
         <Image
-          loader={imageLoader}
-          src="images/hero-bg.jpg"
+          src="/images/hero-bg.jpg" // Add leading slash
           alt="Queen Acoustic Ambiance"
           fill
           className="object-cover brightness-90"

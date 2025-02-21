@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
-import imageLoader from '@/lib/image-loader';
 
 export default function About() {
   const { t } = useLanguage();
@@ -69,8 +68,7 @@ export default function About() {
           >
             <div className="absolute inset-0 z-10 bg-black/5 transition-colors duration-500 group-hover:bg-black/0" />
             <Image
-              loader={imageLoader}
-              src="images/about-image.jpg"
+              src="/images/about-image.jpg" // Add leading slash
               alt="Queen Acoustic Interior"
               fill
               className="object-cover"
