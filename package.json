@@ -9,6 +9,8 @@
     "lint": "next lint",
     "docker:build": "docker build -t queen-acoustic .",
     "docker:run": "docker run -p 3000:3000 queen-acoustic",
+    "docker:up": "docker-compose up -d --force-recreate",
+    "docker:update": "npm run docker:build && npm run docker:up",
     "docker:compose": "docker-compose up -d",
     "docker:compose:down": "docker-compose down"
   },
