@@ -38,3 +38,4 @@ scripts/create-admin.mongodb.js
 scripts/hash-password.js
 scripts/insert-admin.mongodb.js
 scripts/verify-admin.mongodb.js
+.vercel
