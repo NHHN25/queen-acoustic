@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
+import { withPayload } from '@payloadcms/next/withPayload'
+
 const nextConfig = {
   output: 'standalone',
   basePath: '',  // Ensure base path is empty
   assetPrefix: '',  // Ensure asset prefix is empty
   images: {
     unoptimized: true,
-    domains: ['localhost'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -18,7 +19,10 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/webp'],
   },
+  experimental: {
+    reactCompiler: true,
+  },
   serverExternalPackages: ['sharp'],
 };
 
-module.exports = nextConfig;
+export default withPayload(nextConfig)
