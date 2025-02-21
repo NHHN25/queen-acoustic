@@ -4,6 +4,18 @@ import prisma from "@/lib/prisma";
 import { compare } from "bcrypt";
 import NextAuth from "next-auth/next";
 
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id?: string;
+      role?: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    }
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   debug: false, // Disable debug mode in production
   session: {

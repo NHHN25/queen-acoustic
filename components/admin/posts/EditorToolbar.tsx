@@ -1,14 +1,15 @@
 import { Editor } from '@tiptap/react';
 import { useState } from 'react';
 import { 
-  FaBold, FaItalic, FaUnderline, FaListUl, FaListOl, FaImage, 
-  FaLink, FaTable, FaSubscript, FaSuperscript, FaCode,
-  FaParagraph, FaQuoteRight, FaRedo, FaUndo, FaEraser,
-  FaPalette, FaFont
+  FaBold, FaItalic, FaUnderline, FaListUl, FaListOl,
+  FaSubscript, FaSuperscript, FaCode, FaPalette, FaFont,
+  FaUndo, FaRedo, FaEraser, FaQuoteRight, FaLink, FaTable,
+  FaParagraph
 } from 'react-icons/fa';
 import { 
   MdFormatAlignLeft, MdFormatAlignCenter, 
-  MdFormatAlignRight, MdFormatAlignJustify 
+  MdFormatAlignRight, MdFormatAlignJustify,
+  MdFormatQuote
 } from 'react-icons/md';
 import { fontFamilyOptions, headingSizes, colorPalette } from '@/lib/editorExtensions';
 import ImageUploadButton from './ImageUploadButton';
@@ -16,9 +17,11 @@ import ImageUploadButton from './ImageUploadButton';
 interface EditorToolbarProps {
   editor: Editor | null;
   t: any;
+  onAddLink?: () => void;
+  onAddTable?: () => void;
 }
 
-export default function EditorToolbar({ editor, t }: EditorToolbarProps) {
+export default function EditorToolbar({ editor, t, onAddLink, onAddTable }: EditorToolbarProps) {
   const [showColors, setShowColors] = useState(false);
   const [showFonts, setShowFonts] = useState(false);
   const [showHeadings, setShowHeadings] = useState(false);
@@ -61,7 +64,7 @@ export default function EditorToolbar({ editor, t }: EditorToolbarProps) {
                   <button
                     key={value}
                     onClick={() => {
-                      editor.chain().focus().toggleHeading({ level: value }).run();
+                      editor.chain().focus().toggleHeading({ level: value as 1 | 2 | 3 | 4 | 5 | 6 }).run();
                       setShowHeadings(false);
                     }}
                     className={`block w-full text-left px-4 py-2 text-sm ${
@@ -132,51 +135,83 @@ export default function EditorToolbar({ editor, t }: EditorToolbarProps) {
             () => editor.chain().focus().setTextAlign('left').run(),
             <MdFormatAlignLeft />,
             editor.isActive({ textAlign: 'left' }),
-            t.editor.alignLeft
+            t.editor?.alignLeft || 'Align Left'
           )}
-          {/* ...other alignment buttons... */}
+          {toolbarButton(
+            () => editor.chain().focus().setTextAlign('center').run(),
+            <MdFormatAlignCenter />,
+            editor.isActive({ textAlign: 'center' }),
+            t.editor?.alignCenter || 'Center'
+          )}
+          {toolbarButton(
+            () => editor.chain().focus().setTextAlign('right').run(),
+            <MdFormatAlignRight />,
+            editor.isActive({ textAlign: 'right' }),
+            t.editor?.alignRight || 'Align Right'
+          )}
+          {toolbarButton(
+            () => editor.chain().focus().setTextAlign('justify').run(),
+            <MdFormatAlignJustify />,
+            editor.isActive({ textAlign: 'justify' }),
+            t.editor?.alignJustify || 'Justify'
+          )}
         </div>
 
-        {/* Lists and Indentation */}
+        {/* Lists Controls - Removed indent/outdent */}
         <div className="flex items-center space-x-1 border-r pr-2">
           {toolbarButton(
             () => editor.chain().focus().toggleBulletList().run(),
             <FaListUl />,
             editor.isActive('bulletList'),
-            t.editor.bulletList
+            t.editor?.bulletList || 'Bullet List'
           )}
           {toolbarButton(
             () => editor.chain().focus().toggleOrderedList().run(),
             <FaListOl />,
             editor.isActive('orderedList'),
-            t.editor.orderedList
+            t.editor?.orderedList || 'Ordered List'
           )}
         </div>
 
-        {/* Color Picker */}
-        <div className="relative">
-          <button
-            onClick={() => setShowColors(!showColors)}
-            className="p-2 rounded hover:bg-gray-700 text-gray-300 hover:text-gold-400"
-          >
-            <FaPalette />
-          </button>
-          {showColors && (
-            <div className="absolute top-full left-0 mt-1 p-2 bg-gray-800 shadow-lg rounded-md border border-gray-600 z-50">
-              <div className="grid grid-cols-10 gap-1">
-                {colorPalette.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => {
-                      editor.chain().focus().setColor(color).run();
-                      setShowColors(false);
-                    }}
-                    className="w-6 h-6 rounded-sm border border-gray-600 hover:border-gold-400 transition-colors"
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
-            </div>
+        {/* Quote Controls */}
+        <div className="flex items-center space-x-1 border-r pr-2">
+          {toolbarButton(
+            () => editor.chain().focus().toggleBlockquote().run(),
+            <MdFormatQuote />,
+            editor.isActive('blockquote'),
+            t.editor?.quote || 'Quote'
+          )}
+          {toolbarButton(
+            () => editor.chain().focus().toggleNode('paragraph', 'blockquote').run(),
+            <FaQuoteRight />,
+            editor.isActive('blockquote'),
+            t.editor?.blockquote || 'Block Quote'
+          )}
+        </div>
+
+        {/* Insert Controls */}
+        <div className="flex items-center space-x-1 border-r pr-2">
+          {toolbarButton(
+            onAddLink || (() => {}),
+            <FaLink />,
+            editor.isActive('link'),
+            t.editor.addLink || 'Add Link'
+          )}
+          {toolbarButton(
+            onAddTable || (() => {}),
+            <FaTable />,
+            false,
+            t.editor.addTable || 'Add Table'
+          )}
+        </div>
+
+        {/* Style Controls */}
+        <div className="flex items-center space-x-1 border-r pr-2">
+          {toolbarButton(
+            () => editor.chain().focus().setParagraph().run(),
+            <FaParagraph />,
+            editor.isActive('paragraph'),
+            t.editor.paragraph || 'Paragraph'
           )}
         </div>
 
@@ -213,19 +248,19 @@ export default function EditorToolbar({ editor, t }: EditorToolbarProps) {
             () => editor.chain().focus().undo().run(),
             <FaUndo />,
             false,
-            'Undo'
+            t.editor?.undo || 'Undo'
           )}
           {toolbarButton(
             () => editor.chain().focus().redo().run(),
             <FaRedo />,
             false,
-            'Redo'
+            t.editor?.redo || 'Redo'
           )}
           {toolbarButton(
             () => editor.chain().focus().clearNodes().unsetAllMarks().run(),
             <FaEraser />,
             false,
-            'Clear Formatting'
+            t.editor?.clearFormat || 'Clear Formatting'
           )}
         </div>
       </div>

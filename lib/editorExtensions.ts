@@ -33,11 +33,7 @@ export const editorExtensions = [
     HTMLAttributes: {
       class: 'max-w-full h-auto rounded-lg transition-all cursor-pointer select-none hover:ring-2 hover:ring-gold-500/50',
     },
-    selectable: true,
-    draggable: true,
     allowBase64: true,
-    resizable: true,
-    allowGapCursor: false,
   }),
   TextAlign.configure({
     types: ['heading', 'paragraph'],
