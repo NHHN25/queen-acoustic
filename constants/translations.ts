@@ -123,7 +123,7 @@ export const translations = {
     admin: {
       posts: {
         title: 'Quản Lý Bài Viết',
-        createPost: 'Tạo Bài Viết',
+        createPost: 'Tạo Bài Viết Mới',
         preview: 'Xem Trước',
         postTitle: 'Tiêu đề bài viết',
         category: 'Danh mục',
@@ -132,11 +132,17 @@ export const translations = {
         addImage: 'Thêm Hình',
         save: 'Lưu Bài Viết',
         creating: 'Đang lưu...',
+        management: 'Quản lý',
+        editPost: 'Chỉnh Sửa Bài Viết',
+        edit: 'Chỉnh sửa',
+        delete: 'Xóa bài viết',
+        deleteConfirm: 'Bạn có chắc chắn muốn xóa bài viết này không?',
         categories: {
           news: 'Tin Tức',
           events: 'Sự Kiện'
         },
         editor: {
+          title: 'Tạo Bài Viết Mới',
           bold: 'In đậm',
           italic: 'In nghiêng',
           underline: 'Gạch chân',
@@ -278,7 +284,7 @@ export const translations = {
     admin: {
       posts: {
         title: 'Posts Management',
-        createPost: 'Create Post',
+        createPost: 'Create New Post',
         preview: 'Preview',
         postTitle: 'Post title',
         category: 'Category',
@@ -287,11 +293,17 @@ export const translations = {
         addImage: 'Add Image',
         save: 'Save Post',
         creating: 'Saving...',
+        management: 'Management',
+        editPost: 'Edit Post',
+        edit: 'Edit',
+        delete: 'Delete post',
+        deleteConfirm: 'Are you sure you want to delete this post?',
         categories: {
           news: 'News',
           events: 'Events'
         },
         editor: {
+          title: 'Create New Post',
           bold: 'Bold',
           italic: 'Italic',
           underline: 'Underline',

@@ -53,12 +53,15 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get('category');
 
     const employee = await prisma.employee.findUnique({
       where: { id: session.user.id },
@@ -70,7 +73,10 @@ export async function GET() {
     }
 
     const posts = await prisma.post.findMany({
-      where: { authorId: employee.id },
+      where: { 
+        authorId: employee.id,
+        ...(category ? { category } : {})
+      },
       include: {
         author: {
           select: {
