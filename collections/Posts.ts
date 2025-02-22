@@ -3,8 +3,8 @@ import { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
   labels: {
-    singular: {en: 'Post', vi: 'Bài viết'},
-    plural: {en: 'Posts', vi: 'Bài viết'},
+    singular: { en: 'Post', vi: 'Bài viết' },
+    plural: { en: 'Posts', vi: 'Bài viết' },
   },
   slug: 'posts',
   admin: {
@@ -21,7 +21,7 @@ export const Posts: CollectionConfig = {
       label: {
         en: 'Title',
         vi: 'Tiêu đề',
-      }
+      },
     },
     lexicalHTML('content', { name: 'htmlcontent' }),
     {
@@ -31,7 +31,7 @@ export const Posts: CollectionConfig = {
       label: {
         en: 'Content',
         vi: 'Nội dung',
-      }
+      },
     },
     {
       name: 'category',
@@ -70,9 +70,8 @@ export const Posts: CollectionConfig = {
       label: {
         en: 'Author',
         vi: 'Tác giả',
-      }
+      },
     },
-    // New cover image field
     {
       name: 'coverImage',
       type: 'upload',
@@ -81,7 +80,7 @@ export const Posts: CollectionConfig = {
       label: {
         en: 'Cover Image',
         vi: 'Hình ảnh bìa',
-      }
+      },
     },
   ],
 }

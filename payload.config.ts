@@ -28,4 +28,9 @@ export default buildConfig({
         url: process.env.DATABASE_URI || '',
     }),
     sharp,
+    admin: {
+        meta: {
+            titleSuffix: ' - Queen Acoustic',
+        },
+    }
 })
