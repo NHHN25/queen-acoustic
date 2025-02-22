@@ -2,7 +2,6 @@ node_modules
 .env*
 .next
 dist
-media/uploads/*
 !media/uploads/.gitkeep
 npm-debug.log
 README.md

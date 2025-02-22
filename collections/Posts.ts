@@ -13,13 +13,23 @@ export const Posts: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
-      localized: true,
     },
     {
       name: 'content',
       type: 'richText',
       required: true,
-      localized: true,
+    },
+    {
+      name: 'category',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'News', value: 'news' },
+        { label: 'Events', value: 'events' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'slug',
@@ -35,6 +45,14 @@ export const Posts: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       required: true,
+    },
+    // New cover image field
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Post Cover Image',
     },
   ],
 }
