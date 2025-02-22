@@ -3,13 +3,30 @@ import { CollectionConfig } from 'payload'
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: {
-    singular: 'Media',
-    plural: 'Media',
+    singular: {
+        en: 'Media',
+        vi: 'Hình ảnh',
+    },
+    plural: {
+        en: 'Media',
+        vi: 'Hình ảnh',
+    },
   },
   upload: true,
   admin: {
     useAsTitle: 'filename',
   },
-  // You can add additional custom fields here if necessary
-  fields: [],
+  // Additional fields can be added to further customize your media items
+  fields: [
+    {
+      name: 'categories',
+      type: 'relationship',
+      relationTo: 'media-categories',
+      hasMany: true,
+      label: {
+        en: 'Categories',
+        vi: 'Danh mục',
+      }
+    },
+  ],
 }

@@ -18,8 +18,9 @@ export default function ContactPage() {
       {/* Hero Section */}
       <div className="relative h-[40vh] bg-black/60">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
-          <div className="absolute inset-0 bg-black/20" />
+          {/* Multiple overlay layers for better text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/70" />
+          <div className="absolute inset-0 bg-black/40" />
           <Image
             src="/images/hero-bg.jpg"
             alt="Contact Background"
@@ -30,12 +31,14 @@ export default function ContactPage() {
           />
         </div>
         <div className="relative z-10 h-full container flex flex-col justify-center items-center text-white text-center">
-          <h1 className="text-4xl md:text-5xl font-light mb-4 hero-text">
+          <h1 className="text-4xl md:text-5xl font-light mb-4 hero-text tracking-wider drop-shadow-lg">
             {t('contact.title')}
           </h1>
-          <p className="text-xl md:text-2xl font-light hero-subtitle">
+          <p className="text-xl md:text-2xl font-light hero-subtitle drop-shadow-lg max-w-2xl">
             {t('contact.subtitle')}
           </p>
+          {/* Decorative line */}
+          <div className="h-1 w-24 bg-gold-400 mt-6 shadow-lg"></div>
         </div>
       </div>
 
