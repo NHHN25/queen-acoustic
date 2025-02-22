@@ -1,11 +1,10 @@
-.git
-.next
 node_modules
+.env*
+.next
+dist
+media/uploads/*
+!media/uploads/.gitkeep
 npm-debug.log
 README.md
-.env
-.env.local
-.env.development
-.env.production
 Dockerfile
 .dockerignore

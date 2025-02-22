@@ -33,7 +33,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'author',
       type: 'relationship',
-      relationTo: 'employees',
+      relationTo: 'users',
       required: true,
     },
   ],

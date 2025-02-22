@@ -8,17 +8,21 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URI=${DATABASE_URI}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
+      - PAYLOAD_CONFIG_PATH=payload.config.ts
       - PAYLOAD_PUBLIC_SERVER_URL=${PAYLOAD_PUBLIC_SERVER_URL}
     volumes:
       - ./public:/app/public
-      - node_modules:/app/node_modules
-      - build:/app/.next
+      - ./media:/app/media
+      - payload-uploads:/app/media/uploads
     image: queen-acoustic:latest
     restart: always
+
+volumes:
+  payload-uploads:
