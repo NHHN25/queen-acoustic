@@ -9,6 +9,7 @@ export const Users: CollectionConfig = {
   auth: true, // enable authentication for user login, etc.
   admin: {
     useAsTitle: 'email',
+    group: { en: 'Admin', vi: 'Admin'}
   },
   fields: [
     {

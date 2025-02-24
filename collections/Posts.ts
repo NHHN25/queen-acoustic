@@ -9,6 +9,7 @@ export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'title',
+    group: { en: 'Post Management', vi: 'Quản Lý Bài Viết' },
   },
   access: {
     read: () => true,

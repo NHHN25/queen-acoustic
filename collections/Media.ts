@@ -15,6 +15,7 @@ export const Media: CollectionConfig = {
   upload: true,
   admin: {
     useAsTitle: 'filename',
+    group: { en: 'Post Management', vi: 'Quản Lý Bài Viết' },
   },
   // Additional fields can be added to further customize your media items
   fields: [

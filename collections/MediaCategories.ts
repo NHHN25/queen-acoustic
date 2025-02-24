@@ -8,6 +8,8 @@ export const MediaCategories: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
+    group: { en: 'Post Management', vi: 'Quản Lý Bài Viết' },
+
   },
   access: {
     read: () => true,
