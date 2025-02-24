@@ -3,8 +3,6 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 const nextConfig = {
   output: 'standalone',
-  basePath: '',  // Ensure base path is empty
-  assetPrefix: '',  // Ensure asset prefix is empty
   images: {
     unoptimized: true,
     remotePatterns: [

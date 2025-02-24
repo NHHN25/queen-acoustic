@@ -1,9 +1,11 @@
-import payload, { getPayload } from 'payload'
+import { getPayload } from 'payload'
 import config from '@/payload.config'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { translations } from '@/constants/translations'
+
+export const dynamic = 'force-dynamic'
 
 const language = 'vi'
 const t = translations[language]
@@ -60,7 +62,7 @@ export default async function NewsPage() {
       <section className="py-16 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post: any) => {
+            {posts.map((post) => {
               // Strip HTML tags from converted HTML to use as an excerpt
               const plainTextExcerpt = extractPlainText(post.htmlcontent || '')
               return (

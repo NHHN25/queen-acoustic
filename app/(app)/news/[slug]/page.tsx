@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation'
 import config from '@/payload.config'
 import { getPayload } from 'payload'
-import Image from 'next/image'
 
-export default async function PostDetailPage({ params }: { params: { slug: string } }) {
+export default async function PostDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
   const payloadConfig = await config

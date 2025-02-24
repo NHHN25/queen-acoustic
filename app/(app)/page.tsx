@@ -7,7 +7,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { format, isToday, addDays, isSameDay } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import clsx from 'clsx';
-import Link from 'next/link';
 
 type Event = {
   id: number;
