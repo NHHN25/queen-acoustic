@@ -18,8 +18,10 @@ services:
       - ./public:/app/public
       - ./media:/app/media
       - payload-uploads:/app/media/uploads
-    image: queen-acoustic:latest
+    image: ghcr.io/nhhn25/queen-acoustic:latest
     restart: always
+    env_file:
+      - .env
 
 volumes:
   payload-uploads:

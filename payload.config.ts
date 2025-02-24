@@ -10,10 +10,14 @@ import { MediaCategories } from './collections/MediaCategories'
 import { Users } from './collections/Users'
 import { fileURLToPath } from 'url'
 import path from 'path'
+import dotenv from 'dotenv'
 
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+dotenv.config({
+    path: path.resolve(dirname, '/.env')
+})
 
 export default buildConfig({
     serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000',
