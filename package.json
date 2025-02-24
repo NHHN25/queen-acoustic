@@ -7,7 +7,7 @@
     "build": "tsc && next build",
     "start": "node .next/standalone/server.js",
     "lint": "next lint",
-    "docker:build": "docker build -t queen-acoustic .",
+    "docker:build": "docker build -t ghcr.io/nhhn25/queen-acoustic .",
     "docker:run": "docker run -p 3000:3000 queen-acoustic",
     "docker:up": "docker-compose up -d --force-recreate",
     "docker:update": "npm run docker:build && npm run docker:up",
